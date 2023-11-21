@@ -2,15 +2,14 @@
     <div class="Main_banner">
         <div class="date">
             <select id="year">
-                <option>2023年</option>
                 <option>2021年</option>
                 <option>2022年</option>
-                <option>2023年</option>
+                <!-- 下拉框默认值用selected -->
+                <option selected>2023年</option>
                 <option>2024年</option>
             </select>
             <br>
             <select id="month">
-                <option>11月</option>
                 <option>1月</option>
                 <option>2月</option>
                 <option>3月</option>
@@ -20,7 +19,7 @@
                 <option>8月</option>
                 <option>9月</option>
                 <option>10月</option>
-                <option>11月</option>
+                <option selected>11月</option>
                 <option>12月</option>
                 <!-- ...其他月份... -->
             </select>
@@ -48,11 +47,11 @@
         </div>
     </div>
     <div class="Main_content">
-        <div>
+        <div @click="changeFlag1">
             <div for="" class="title">
                 <label for="">11月10日星期五</label>
             </div>
-            <ul ref="list1">
+            <ul v-show="flag1">
                 <li><img src="../assets/image/餐饮.png" alt="">&nbsp;&nbsp;<input type="text" value="餐饮"><input type="text"
                         value="-12.5" class="expense_detail"></li>
                 <li><img src="../assets/image/购物.png" alt="">&nbsp;&nbsp;<input type="text" value="购物"><input type="text"
@@ -62,11 +61,11 @@
             </ul>
         </div>
         <br>
-        <div>
+        <div @click="changeFlag2">
             <div for="" class="title">
                 <label for="">11月9日星期四</label>
             </div>
-            <ul>
+            <ul v-show="flag2">
                 <li><img src="../assets/image/餐饮.png" alt="">&nbsp;&nbsp;<input type="text" value="餐饮"><input type="text"
                         value="-15" class="expense_detail"></li>
                 <li><img src="../assets/image/交通.png" alt="">&nbsp;&nbsp;<input type="text" value="交通"><input type="text"
@@ -87,30 +86,20 @@ export default {
         return {
             income: "0.00",
             expenses: "89.80",
-            flag1: 1,
-            flag2: 1
+            flag1: true,
+            flag2: true
         }
     },
-    // methods: {
-    //     changeState1() {
-    //         if (this.flag1 == 1) {
-    //             this.$ref.list1.style.display = 'block';
-    //             this.flag1 = 0;
-    //         } else {
-    //             this.$ref.list1.style.display = 'none';
-    //             this.flag1 = 1;
-    //         }
-    //     },
-    //     changeState2() {
-    //         if (this.flag2 == 1) {
-    //             this.$ref.list2.style.display = 'block';
-    //             this.flag2 = 0;
-    //         } else {
-    //             this.$ref.slist2.tyle.display = 'none';
-    //             this.flag2 = 1;
-    //         }
-    //     }
-    // }
+    methods: {
+        changeFlag1() {
+            // console.log("点击了内容1");
+            this.flag1 = !this.flag1;
+        },
+        changeFlag2() {
+            // console.log("点击了内容2");
+            this.flag2 = !this.flag2;
+        }
+    }
 }
 </script>
 <style scoped>
