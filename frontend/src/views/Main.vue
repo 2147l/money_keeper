@@ -47,8 +47,8 @@
         </div>
     </div>
     <div class="Main_content">
-        <div @click="changeFlag1">
-            <div for="" class="title">
+        <div>
+            <div for="" class="title" @click="changeFlag1">
                 <label for="">11月10日星期五</label>
             </div>
             <ul v-show="flag1">
@@ -61,8 +61,8 @@
             </ul>
         </div>
         <br>
-        <div @click="changeFlag2">
-            <div for="" class="title">
+        <div>
+            <div for="" class="title" @click="changeFlag2">
                 <label for="">11月9日星期四</label>
             </div>
             <ul v-show="flag2">
