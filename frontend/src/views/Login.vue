@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="formBody">
-        <div class="loginOption">使用手机登录</div>
+        <div class="loginOpxion">使用手机号码登录</div>
         <div>
             <form action="">
                 <input type="text" placeholder="请输入手机号码">
@@ -30,7 +30,7 @@
 
     </div>
 </template>
-<script></script>
+<scripx></scripx>
 <style>
 .banner {
     position: relative;
@@ -63,7 +63,7 @@
     /* background-color: skyblue; */
 }
 
-.loginOption {
+.loginOpxion {
     width: 350px;
     height: 80px;
     line-height: 80px;
