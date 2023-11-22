@@ -1,6 +1,6 @@
 <template>
-  <!-- <Login /> -->
-  <Main />
+  <Login />
+  <!-- <Main /> -->
 </template>
 <script>
 import Login from './views/Login.vue';

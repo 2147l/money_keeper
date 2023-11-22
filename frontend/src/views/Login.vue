@@ -12,7 +12,10 @@
                 <input type="text" placeholder="请输入手机号码">
                 <br>
                 <br>
-                <input type="password" placeholder="请输入密码">
+                <div id="password">
+                    <input type="password" placeholder="请输入密码" id="password1" ref="password">
+                    <span id="changeVisbility" @click="changeVisbilityState"></span>
+                </div>
                 <br>
                 <br>
                 <br>
@@ -30,7 +33,27 @@
 
     </div>
 </template>
-<scripx></scripx>
+<script>
+export default {
+    data() {
+        return {
+            flag: 1
+        }
+    },
+    methods: {
+        changeVisbilityState() {
+            if (this.flag == 1) {
+                this.$refs.password.type = 'text';
+                this.flag = 0;
+            } else {
+                this.$refs.password.type = 'password';
+                this.flag = 1;
+            }
+        }
+    }
+}
+
+</script>
 <style>
 .banner {
     position: relative;
@@ -77,6 +100,28 @@
     border-radius: 10px;
     border: none;
     background-color: #F6F7F9;
+}
+
+#password {
+    width: 336px;
+}
+
+#password1 {
+    width: 297px;
+    border-radius: 10px 0 0 10px;
+}
+
+#changeVisbility {
+    display: block;
+    float: right;
+    width: 39px;
+    height: 52px;
+    background: url("../assets/image/眼.png");
+    background-repeat: no-repeat;
+    border: 0;
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
 }
 
 input::placeholder {
