@@ -134,6 +134,10 @@ select {
     font-size: 20px;
 }
 
+option {
+    font-size: 10px;
+}
+
 .money {
     /* position: absolute; */
     float: right;
