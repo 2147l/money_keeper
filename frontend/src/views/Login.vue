@@ -8,12 +8,12 @@
     <div class="formBody">
         <div class="loginOpxion">使用手机号码登录</div>
         <div>
-            <form action="">
-                <input type="text" placeholder="请输入手机号码">
+            <form action="#">
+                <input type="text" placeholder="请输入手机号码" v-model.lazy="phone">
                 <br>
                 <br>
                 <div id="password">
-                    <input type="password" placeholder="请输入密码" id="password1" ref="password">
+                    <input type="password" placeholder="请输入密码" id="password1" ref="password" v-model.lazy="password">
                     <span id="changeVisbility" @click="changeVisbilityState"></span>
                 </div>
                 <br>
@@ -26,8 +26,10 @@
                 <br>
                 <br>
                 <br>
-                <button type="submit">登录</button>
-
+                <!-- 尝试登录 -->
+                <button type="submit" @click.prevent="login">登录</button>
+                <div class = "tip" v-show="typeInStatus == 1">请输入账号密码</div>
+                <div class = "tip" v-show="typeInStatus == 2">账号或密码错误</div>
             </form>
         </div>
 
@@ -37,18 +39,36 @@
 export default {
     data() {
         return {
-            flag: 1
+            passwordVisible: 1, // 1表示密码不可见，0表示密码可见
+            typeInStatus: 0, // 0表示初始状态，1表示等待输入账号或密码，2表示账号或密码错误
+            phone: "",
+            password: "",
         }
     },
     methods: {
         changeVisbilityState() {
-            if (this.flag == 1) {
+            if (this.passwordVisible == 1) {
                 this.$refs.password.type = 'text';
-                this.flag = 0;
+                this.passwordVisible = 0;
             } else {
                 this.$refs.password.type = 'password';
-                this.flag = 1;
+                this.passwordVisible = 1;
             }
+        },
+        login() {
+            if (!this.phone || !this.password) {
+                this.typeInStatus = 1
+                return
+            }
+            // 调用后端登录方法，传入手机号和密码，正确返回id，失败返回空
+            this.$axios.post('http://localhost:8080/user/login', { phone: this.phone, password: this.password })
+                .then(res => res.data).then(res => {
+                    // console.log(res) // 控制台打印返回结果观察
+                    if (res)
+                        this.$router.push({ path: '/main', query: { id: res } })
+                    else
+                        this.typeInStatus = 2;
+                })
         }
     }
 }
@@ -77,6 +97,8 @@ export default {
     float: right;
     font-size: 25px;
     line-height: 74px;
+    font-weight: bolder;
+
 }
 
 .formBody {
@@ -91,6 +113,7 @@ export default {
     height: 80px;
     line-height: 80px;
     color: #A1A1A1;
+    font-size: large;
     /* background-color: yellow; */
 }
 
@@ -100,6 +123,7 @@ export default {
     border-radius: 10px;
     border: none;
     background-color: #F6F7F9;
+    padding-left: 10px;
 }
 
 #password {
@@ -109,6 +133,11 @@ export default {
 #password1 {
     width: 297px;
     border-radius: 10px 0 0 10px;
+}
+
+/* 去掉默认的小眼睛 */
+input[type="password"]::-ms-reveal {
+    display: none
 }
 
 #changeVisbility {
@@ -145,5 +174,10 @@ button {
     height: 14px;
     line-height: 14px;
     font-size: 14px;
+}
+
+.tip {
+    text-align: center;
+    color: #ff5a5a;
 }
 </style>

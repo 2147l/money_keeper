@@ -81,9 +81,11 @@
     </div>
 </template>
 <script>
+
 export default {
     data() {
         return {
+            id: this.$route.query.id,
             income: "0.00",
             expenses: "89.80",
             flag1: true,
