@@ -37,11 +37,21 @@
         </div>
         <div class="item">
             <ul>
-                <li><a href="#"><img src="../assets/image/main_item1.png" alt=""><br>&nbsp;账&nbsp;单</a></li>
-                <li><a href="#"><img src="../assets/image/main_item2.png" alt=""><br>&nbsp;预&nbsp;算</a></li>
-                <li><a href="#"><img src="../assets/image/main_item3.png" alt=""><br>&nbsp;汇&nbsp;率</a></li>
-                <li><a href="#"><img src="../assets/image/main_item4.png" alt=""><br>&nbsp;账&nbsp;本</a></li>
-                <li><a href="#"><img src="../assets/image/main_item5.png" alt=""><br>&nbsp;更&nbsp;多</a></li>
+                <li><a href="#"><img src="../assets/image/main_item1.png" width="50" height="50" alt=""><br>
+                        <div class="item_content">账&nbsp;单</div>
+                    </a></li>
+                <li><a href="#"><img src="../assets/image/main_item2.png" width="50" height="50" alt=""><br>
+                        <div class="item_content">预&nbsp;算</div>
+                    </a></li>
+                <li><a href="#"><img src="../assets/image/main_item3.png" width="50" height="50" alt=""><br>
+                        <div class="item_content">汇&nbsp;率</div>
+                    </a></li>
+                <li><a href="#"><img src="../assets/image/main_item4.png" width="50" height="50" alt=""><br>
+                        <div class="item_content">账&nbsp;本</div>
+                    </a></li>
+                <li><a href="#"><img src="../assets/image/main_item5.png" width="50" height="50" alt=""><br>
+                        <div class="item_content">更&nbsp;多</div>
+                    </a></li>
 
             </ul>
         </div>
@@ -51,13 +61,14 @@
             <div for="" class="title" @click="changeFlag1">
                 <label for="">11月10日星期五</label>
             </div>
+            <br>
             <ul v-show="flag1">
-                <li><img src="../assets/image/餐饮.png" alt="">&nbsp;&nbsp;<input type="text" value="餐饮"><input type="text"
-                        value="-12.5" class="expense_detail"></li>
-                <li><img src="../assets/image/购物.png" alt="">&nbsp;&nbsp;<input type="text" value="购物"><input type="text"
-                        value="-25.8" class="expense_detail"></li>
-                <li><img src="../assets/image/交通.png" alt="">&nbsp;&nbsp;<input type="text" value="交通"><input type="text"
-                        value="-5" class="expense_detail"></li>
+                <li><img src="../assets/icon/餐饮.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="餐饮"><input type="text" value="-12.5" class="expense_detail"></li>
+                <li><img src="../assets/icon/购物.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="购物"><input type="text" value="-25.8" class="expense_detail"></li>
+                <li><img src="../assets/icon/交通.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="交通"><input type="text" value="-5" class="expense_detail"></li>
             </ul>
         </div>
         <br>
@@ -65,23 +76,24 @@
             <div for="" class="title" @click="changeFlag2">
                 <label for="">11月9日星期四</label>
             </div>
+            <br>
             <ul v-show="flag2">
-                <li><img src="../assets/image/餐饮.png" alt="">&nbsp;&nbsp;<input type="text" value="餐饮"><input type="text"
-                        value="-15" class="expense_detail"></li>
-                <li><img src="../assets/image/交通.png" alt="">&nbsp;&nbsp;<input type="text" value="交通"><input type="text"
-                        value="-7" class="expense_detail"></li>
-                <li><img src="../assets/image/水果.png" alt="">&nbsp;&nbsp;<input type="text" value="水果"><input type="text"
-                        value="-12.5" class="expense_detail"></li>
-                <li><img src="../assets/image/餐饮.png" alt="">&nbsp;&nbsp;<input type="text" value="餐饮"><input type="text"
-                        value="-12" class="expense_detail"></li>
+                <li><img src="../assets/icon/餐饮.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="餐饮"><input type="text" value="-15" class="expense_detail"></li>
+                <li><img src="../assets/icon/交通.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="交通"><input type="text" value="-7" class="expense_detail"></li>
+                <li><img src="../assets/icon/运动.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="运动"><input type="text" value="-12.5" class="expense_detail"></li>
+                <li><img src="../assets/icon/餐饮.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
+                        value="餐饮"><input type="text" value="-12" class="expense_detail"></li>
             </ul>
         </div>
 
-        
+
 
     </div>
     <div id="addBill" @click="gotoOutput">
-        <img src="../assets/image/记账.png" alt="记账加号" style="width: 80px;">
+        <img src="../assets/image/记账.png" width="30" height="30" alt="记账加号" style="width: 80px;">
         <div>记账</div>
     </div>
 </template>
@@ -186,6 +198,10 @@ option {
     border-radius: 10px;
 }
 
+.item_content {
+    text-align: center;
+}
+
 .item ul li {
     display: inline-block;
     margin-right: 8px;
@@ -193,7 +209,7 @@ option {
 
 .title {
     display: block;
-    margin-left: 22px;
+    padding-left: 22px;
     width: 390px;
     height: 28px;
     line-height: 28px;
@@ -203,7 +219,7 @@ option {
 
 
 .Main_content ul li {
-    margin-left: 22px;
+    padding-left: 22px;
     width: 390px;
     height: 60px;
     font-size: 14px;
@@ -221,7 +237,7 @@ option {
     text-align: right;
     width: 80px;
     float: right;
-    margin-right: 50px;
+    margin-right: 30px;
 }
 
 #addBill {
