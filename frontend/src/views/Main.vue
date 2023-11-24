@@ -77,7 +77,12 @@
             </ul>
         </div>
 
+        
 
+    </div>
+    <div id="addBill" @click="gotoOutput">
+        <img src="../assets/image/记账.png" alt="记账加号" style="width: 80px;">
+        <div>记账</div>
     </div>
 </template>
 <script>
@@ -87,9 +92,10 @@ export default {
         return {
             id: this.$route.query.id,
             income: "0.00",
-            expenses: "89.80",
+            expenses: "0.00",
             flag1: true,
-            flag2: true
+            flag2: true,
+            result: null
         }
     },
     methods: {
@@ -100,7 +106,18 @@ export default {
         changeFlag2() {
             // console.log("点击了内容2");
             this.flag2 = !this.flag2;
-        }
+        },
+        // 跳转到支出页面
+        gotoOutput() {
+            this.$router.push({ path: '/output', query: { id: this.id } })
+        },
+    },
+    beforeMount() {
+        this.$axios.get('http://localhost:8080/bill/list?userId=' + this.id)
+            .then(res => res.data).then(res => {
+                this.result = res
+                console.log(res)
+            })
     }
 }
 </script>
@@ -205,5 +222,14 @@ option {
     width: 80px;
     float: right;
     margin-right: 50px;
+}
+
+#addBill {
+    width: 80px;
+    position: fixed;
+    bottom: 3%;
+    left: 40%;
+    text-align: center;
+    font-size: large;
 }
 </style>
