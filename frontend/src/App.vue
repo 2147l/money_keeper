@@ -1,7 +1,7 @@
 <template>
   <!-- 默认地址跳转登录页 -->
   <router-view></router-view>
-  <!-- <Main/> -->
+  <!-- <Main /> -->
   <!-- <outputView/> -->
   <!-- <inputView/> -->
 </template>
