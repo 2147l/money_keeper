@@ -188,12 +188,12 @@ option {
 
 .item ul li {
     display: inline-block;
-    margin-right: 8px;
+    padding-right: 8px;
 }
 
 .title {
     display: block;
-    margin-left: 22px;
+    padding-left: 22px;
     width: 390px;
     height: 28px;
     line-height: 28px;
@@ -203,7 +203,7 @@ option {
 
 
 .Main_content ul li {
-    margin-left: 22px;
+    padding-left: 22px;
     width: 390px;
     height: 60px;
     font-size: 14px;
@@ -227,8 +227,8 @@ option {
 #addBill {
     width: 80px;
     position: fixed;
-    bottom: 3%;
-    left: 40%;
+    bottom: 25px;
+    left: 155px;
     text-align: center;
     font-size: large;
 }

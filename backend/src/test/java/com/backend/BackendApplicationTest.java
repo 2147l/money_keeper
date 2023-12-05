@@ -13,12 +13,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+class BackendApplicationTest {
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private UserController userController;
 
     @Test
     public void testGetById() throws Exception {

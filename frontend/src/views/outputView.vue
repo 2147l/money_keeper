@@ -274,8 +274,8 @@ html {
   font-size: large;
   text-align: right;
   border-right-width: 10px;
-  padding-right: 5%;
-  padding-top: 10%;
+  padding-right: 20px;
+  padding-top: 40px;
 }
 
 .topic {

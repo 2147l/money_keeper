@@ -28,8 +28,8 @@
                 <br>
                 <!-- 尝试登录 -->
                 <button type="submit" @click.prevent="login">登录</button>
-                <div class = "tip" v-show="typeInStatus == 1">请输入账号密码</div>
-                <div class = "tip" v-show="typeInStatus == 2">账号或密码错误</div>
+                <div class="tip" v-show="typeInStatus == 1">请输入账号密码</div>
+                <div class="tip" v-show="typeInStatus == 2">账号或密码错误</div>
             </form>
         </div>
 
@@ -60,14 +60,18 @@ export default {
                 this.typeInStatus = 1
                 return
             }
-            // 调用后端登录方法，传入手机号和密码，正确返回id，失败返回空
-            this.$axios.post('http://localhost:8080/user/login', { phone: this.phone, password: this.password })
-                .then(res => res.data).then(res => {
-                    // console.log(res) // 控制台打印返回结果观察
-                    if (res)
-                        this.$router.push({ path: '/main', query: { id: res } })
-                    else
-                        this.typeInStatus = 2;
+            let param = new URLSearchParams();
+            param.append("phone", this.phone)
+            param.append("password", this.password)
+            this.$axios.post('http://localhost:8080/user/login', param)
+                .then(res => {
+                    console.log(res) // 控制台打印返回结果观察
+                    res = res.data
+                    this.$router.push({ path: '/main', query: { id: res.id } })
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.typeInStatus = 2;
                 })
         }
     }
