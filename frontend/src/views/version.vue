@@ -4,28 +4,34 @@
             <div class="exit"><img src="../assets/image/左箭头.png" alt=""></div>
             关于记账本
         </div>
+        <!-- 记帐本logo -->
         <div class="logo1">
             <img src="../assets/image/logo1.png" alt="">
             <br>
             <br>
             <label for="">财务自由从记账本开始</label>
         </div>
+        <!-- 记帐本版本号 -->
         <div class="item">
             <label for="">当前版本</label>
             <label for="" class="curVer">version 1.0.0</label>
         </div>
+        <!-- 记账本隐私协议 -->
         <div class="item">
             <label for="">隐私协议</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
         </div>
+        <!-- 记账本收集个人信息 -->
         <div class="item">
             <label for="">已收集个人信息明示清单</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
         </div>
+        <!-- 记账本第三方信息 -->
         <div class="item">
             <label for="">第三方信息共享清单</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
         </div>
+        <!-- 联系记账本客服 -->
         <div class="item">
             <label for="">联系客服</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
