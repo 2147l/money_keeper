@@ -1,11 +1,14 @@
 <template>
     <div class="myInfo">
         <div class="banner">
+            <!-- 用户信息展示内容：这里主要是头像和昵称  -->
             <div class="info">
                 <img src="../assets/image/头像.png" alt="" class="avatorImg">
                 <label for="" class="infoText">测试者</label>
             </div>
+            <!-- 打卡信息 -->
             <button>{{ message }}</button>
+            <!-- 我的模块一些记账总览 -->
             <div>
                 <ul>
                     <li class="first">
@@ -27,7 +30,9 @@
                 </ul>
             </div>
         </div>
+        <!-- 主体内容 -->
         <div class="content">
+            <!-- 账户安全中心栏目 -->
             <div class="item">
                 <img src="../assets/image/安全.png" alt="">
                 <label for="">&nbsp;&nbsp;账户安全中心</label>
@@ -35,11 +40,13 @@
 
 
             </div>
+            <!-- 意见反馈栏目 -->
             <div class="item">
                 <img src="../assets/image/反馈.png" alt="">
                 <label for="">&nbsp;&nbsp;意见反馈</label>
                 <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             </div>
+            <!-- 记账本版本栏目 -->
             <div class="item">
                 <img src="../assets/image/版本.png" alt="">
                 <label for="">&nbsp;&nbsp;关于记账本</label>

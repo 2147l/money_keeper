@@ -1,6 +1,8 @@
 <template>
     <div class="Main_banner">
+        <!-- 日期选择模块 -->
         <div class="date">
+            <!-- 年份选择 -->
             <select id="year">
                 <option>2021年</option>
                 <option>2022年</option>
@@ -9,6 +11,7 @@
                 <option>2024年</option>
             </select>
             <br>
+            <!-- 月份选择 -->
             <select id="month">
                 <option>1月</option>
                 <option>2月</option>
@@ -26,15 +29,18 @@
             <br>
         </div>
         <div class="money">
+            <!-- 收入金额显示 -->
             <div class="income">
                 收入<br>
                 <label>{{ income }}</label>
             </div>
+            <!-- 支出金额显示 -->
             <div class="expenses">
                 支出<br>
                 <label>{{ expenses }}</label>
             </div>
         </div>
+        <!-- 下面是一些功能软件 -->
         <div class="item">
             <ul>
                 <li><a href="#"><img src="../assets/image/main_item1.png" width="50" height="50" alt=""><br>
@@ -56,12 +62,15 @@
             </ul>
         </div>
     </div>
+    <!-- 这是主界面账单主体模块 -->
     <div class="Main_content">
         <div>
+            <!-- 时间 -->
             <div for="" class="title" @click="changeFlag1">
                 <label for="">11月10日星期五</label>
             </div>
             <br>
+            <!-- 消费记录 -->
             <ul v-show="flag1">
                 <li><img src="../assets/icon/餐饮.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
                         value="餐饮"><input type="text" value="-12.5" class="expense_detail"></li>
@@ -73,10 +82,12 @@
         </div>
         <br>
         <div>
+            <!-- 时间 -->
             <div for="" class="title" @click="changeFlag2">
                 <label for="">11月9日星期四</label>
             </div>
             <br>
+            <!-- 消费记录 -->
             <ul v-show="flag2">
                 <li><img src="../assets/icon/餐饮.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
                         value="餐饮"><input type="text" value="-15" class="expense_detail"></li>
