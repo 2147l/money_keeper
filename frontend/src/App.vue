@@ -1,6 +1,6 @@
 <template>
   <!-- 默认地址跳转登录页 -->
-  <router-view></router-view>
+  <!-- <router-view></router-view> -->
   <!-- <Main /> -->
   <!-- <outputView/> -->
   <!-- <inputView/> -->
@@ -9,6 +9,8 @@
   <!-- <version /> -->
   <!-- <myInfo /> -->
   <!-- <secure /> -->
+  <lineChartOutput />
+  <!-- <lineChartIntput /> -->
 </template>
 <script>
 import Login from './views/Login.vue'
@@ -20,6 +22,8 @@ import feedback from "./views/feedback.vue"
 import version from "./views/version.vue"
 import myInfo from "./views/myInfo.vue"
 import secure from "./views/secure.vue"
+import lineChartOutput from "./views/lineChartOutput.vue"
+import lineChartIntput from "./views/lineChartInput.vue"
 export default {
   components: {
     Login,
@@ -30,7 +34,9 @@ export default {
     feedback,
     version,
     myInfo,
-    secure
+    secure,
+    lineChartOutput,
+    lineChartIntput
   }
 }
 </script>
