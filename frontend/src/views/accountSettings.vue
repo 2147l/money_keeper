@@ -1,23 +1,28 @@
 <template>
     <div class="settings">
+        <!-- 标题 -->
         <div class="title">
             <div class="exit"><img src="../assets/image/左箭头.png" alt=""></div>
             账户设置
         </div>
+        <!-- 头像设置 -->
         <div class="avator">
             <label for="">头像</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             <img src="../assets/image/头像.png" alt="" class="avatorImg">
         </div>
+        <!-- ID展示 -->
         <div class="ID">
             <label for="">ID</label>
             <input type="text" value="52356533" readonly>
         </div>
+        <!-- 昵称设置 -->
         <div class="nickname">
             <label for="">昵称</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             <input type="text" value="测试者">
         </div>
+        <!-- 性别设置 -->
         <div class="sex">
             <label for="">性别</label>
             <!-- 点击箭头实现性别选择，而不是让用户手动输入 -->
@@ -25,24 +30,28 @@
             <input type="text" readonly>
         </div>
         <!-- 以下数据绑定后颜色为银灰色，未绑定为橘红色 -->
+        <!-- 手机号绑定 -->
         <div class="phone">
             <label for="">手机号</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             <input type="text" v-model="inputValue1"
                 :class="{ textColor11: inputValue1 === '未绑定', textColor12: inputValue1 !== '未绑定' }">
         </div>
+        <!-- 微信绑定 -->
         <div class="weixin">
             <label for="">微信</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             <input type="text" v-model="inputValue2"
                 :class="{ textColor21: inputValue2 === '未绑定', textColor22: inputValue2 !== '未绑定' }">
         </div>
+        <!-- 应急联系方式绑定 -->
         <div class="emergencyPhone">
             <label for="">应急联系方式</label>
             <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             <input type="text" v-model="inputValue3"
                 :class="{ textColor31: inputValue3 === '未绑定', textColor32: inputValue3 !== '未绑定' }">
         </div>
+        <!-- 退出登录按钮 -->
         <button class="logOut">退出登录</button>
 
     </div>

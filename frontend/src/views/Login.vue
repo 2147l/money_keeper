@@ -1,17 +1,23 @@
 <template>
+    <!-- 这是logo大板块 -->
     <div class="banner">
         <div class="logo">
             <img src="../assets/image/logo.png" alt="">
             <div class="logoText">记账本</div>
         </div>
     </div>
+    <!-- 下面是登录页面主要内容 -->
     <div class="formBody">
+        <!-- 登录方式提示 -->
         <div class="loginOpxion">使用手机号码登录</div>
         <div>
+            <!-- 表单体 -->
             <form action="#">
+                <!-- 手机号码 -->
                 <input type="text" placeholder="请输入手机号码" v-model.lazy="phone">
                 <br>
                 <br>
+                <!-- 密码 -->
                 <div id="password">
                     <input type="password" placeholder="请输入密码" id="password1" ref="password" v-model.lazy="password">
                     <span id="changeVisbility" @click="changeVisbilityState"></span>
@@ -19,6 +25,7 @@
                 <br>
                 <br>
                 <br>
+                <!-- 隐私协议 -->
                 <div class="item">
                     <input class="checkBox" type="checkbox">
                     已阅读并同意 <a href="#">《用户协议》</a>和<a href="#">《隐私协议》</a>
