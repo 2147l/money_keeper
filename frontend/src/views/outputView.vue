@@ -11,25 +11,25 @@
       <div class="block"></div>
       <div class="group" id="food" @click="categoryId = 1; clickShow('food')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'food' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/餐饮.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/餐饮.png" height="30" width="30" alt="" />
         </div>
         <div class="text">餐饮</div>
       </div>
       <div class="group" id="shopping" @click="categoryId = 2; clickShow('shopping')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'shopping' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/购物.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/购物.png" height="30" width="30" alt="" />
         </div>
         <div class="text">购物</div>
       </div>
       <div class="group" id="daily" @click="categoryId = 3; clickShow('daily')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'daily' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/日用.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/日用.png" height="30" width="30" alt="" />
         </div>
         <div class="text">日用</div>
       </div>
       <div class="group" id="transportation" @click="categoryId = 4; clickShow('transportation')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'transportation' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/交通.png" height="30" width="30" alt="">
+          <img src="src/assets/icon/交通.png" height="30" width="30" alt="">
         </div>
         <div class="text">交通</div>
       </div>
@@ -38,25 +38,25 @@
       <div class="block"></div>
       <div class="group" id="social" @click="categoryId = 5; clickShow('social')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'social' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/社交.png" height="30" width="30" />
+          <img src="src/assets/icon/社交.png" height="30" width="30" />
         </div>
         <div class="text">社交</div>
       </div>
       <div class="group" id="amusement" @click="categoryId = 6; clickShow('amusement')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'amusement' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/娱乐.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/娱乐.png" height="30" width="30" alt="" />
         </div>
         <div class="text">娱乐</div>
       </div>
       <div class="group" id="study" @click="categoryId = 7; clickShow('study')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'study' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/学习.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/学习.png" height="30" width="30" alt="" />
         </div>
         <div class="text">学习</div>
       </div>
       <div class="group" id="sport" @click="categoryId = 8; clickShow('sport')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'sport' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/运动.png" height="30" width="30" alt="">
+          <img src="src/assets/icon/运动.png" height="30" width="30" alt="">
         </div>
         <div class="text">运动</div>
       </div>
@@ -65,25 +65,25 @@
       <div class="block"></div>
       <div class="group" id="medical" @click="categoryId = 9; clickShow('medical')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'medical' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/医疗.png" height="30" width="30" />
+          <img src="src/assets/icon/医疗.png" height="30" width="30" />
         </div>
         <div class="text">医疗</div>
       </div>
       <div class="group" id="travel" @click="categoryId = 10; clickShow('travel')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'travel' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/旅行.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/旅行.png" height="30" width="30" alt="" />
         </div>
         <div class="text">旅行</div>
       </div>
       <div class="group" id="other" @click="categoryId = 11; clickShow('other')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'other' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/其他.png" height="30" width="30" alt="" />
+          <img src="src/assets/icon/其他.png" height="30" width="30" alt="" />
         </div>
         <div class="text">其他</div>
       </div>
       <div class="group" id="setting" @click="categoryId = null; clickShow('setting')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'setting' ? '#ffd946' : 'white' }">
-          <img src="../assets/icon/设置.png" height="30" width="30" alt="">
+          <img src="src/assets/icon/设置.png" height="30" width="30" alt="">
         </div>
         <div class="text">设置</div>
       </div>
@@ -237,6 +237,7 @@ export default {
         categoryId: this.categoryId,
         type: false,
         amount: this.output,
+        date: "",
         note: this.note
       })
         .then(res => res.data).then(res => {

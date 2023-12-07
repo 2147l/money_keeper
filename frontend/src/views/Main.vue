@@ -1,38 +1,37 @@
 <template>
     <div class="Main_banner">
         <div class="date">
-            <select id="year">
-                <option>2021年</option>
-                <option>2022年</option>
-                <!-- 下拉框默认值用selected -->
-                <option selected>2023年</option>
-                <option>2024年</option>
+            <select id="year" v-model="year" @change="list">
+                <option value="2021">2021年</option>
+                <option value="2022">2022年</option>
+                <option value="2023">2023年</option>
+                <option value="2024">2024年</option>
             </select>
             <br>
-            <select id="month">
-                <option>1月</option>
-                <option>2月</option>
-                <option>3月</option>
-                <option>4月</option>
-                <option>5月</option>
-                <option>7月</option>
-                <option>8月</option>
-                <option>9月</option>
-                <option>10月</option>
-                <option selected>11月</option>
-                <option>12月</option>
-                <!-- ...其他月份... -->
+            <select id="month" v-model="month" @change="list">
+                <option value="01">1月</option>
+                <option value="02">2月</option>
+                <option value="03">3月</option>
+                <option value="04">4月</option>
+                <option value="05">5月</option>
+                <option value="06">6月</option>
+                <option value="07">7月</option>
+                <option value="08">8月</option>
+                <option value="09">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
             </select>
             <br>
         </div>
         <div class="money">
             <div class="income">
                 收入<br>
-                <label>{{ income }}</label>
+                <label>{{ income.toFixed(2) }}</label>
             </div>
             <div class="expenses">
                 支出<br>
-                <label>{{ expenses }}</label>
+                <label>{{ expenses.toFixed(2) }}</label>
             </div>
         </div>
         <div class="item">
@@ -57,7 +56,7 @@
         </div>
     </div>
     <div class="Main_content">
-        <div>
+        <!-- <div>
             <div for="" class="title" @click="changeFlag1">
                 <label for="">11月10日星期五</label>
             </div>
@@ -87,13 +86,24 @@
                 <li><img src="../assets/icon/餐饮.png" width="30" height="30" alt="">&nbsp;&nbsp;<input type="text"
                         value="餐饮"><input type="text" value="-12" class="expense_detail"></li>
             </ul>
+        </div> -->
+
+        <div>
+            <div for="" class="title">
+                <label for="">12月</label>
+            </div>
+            <br>
+            <ul v-if="id">
+                <li v-for="(bill, bill_index) in result" key="bill_index">
+                    <img :src="bill.icon" width="30" height="30" :alt="bill.name">&nbsp;&nbsp;
+                    <input type="text" :value=bill.name><input type="text" :value=bill.amount class="expense_detail">
+                </li>
+            </ul>
         </div>
-
-
 
     </div>
     <div id="addBill" @click="gotoOutput">
-        <img src="../assets/image/记账.png" width="30" height="30" alt="记账加号" style="width: 80px;">
+        <img src="../assets/image/记账.png" width="30" height="30" alt="记账加号" style="width: 80px; height: 80px;">
         <div>记账</div>
     </div>
 </template>
@@ -103,11 +113,30 @@ export default {
     data() {
         return {
             id: this.$route.query.id,
-            income: "0.00",
-            expenses: "0.00",
+            year: "2023",
+            month: "12",
+            income: 0,
+            expenses: 0,
             flag1: true,
             flag2: true,
-            result: null
+            result: {
+                id: null,
+                userId: null,
+                categoryId: null,
+                type: false,
+                amount: 0,
+                date: null,
+                note: null,
+                name: null,
+                icon: null
+            }
+        }
+    },
+    watch: {
+        result: {
+            handler (val, newVal) {
+                this.count()
+            }
         }
     },
     methods: {
@@ -123,14 +152,41 @@ export default {
         gotoOutput() {
             this.$router.push({ path: '/output', query: { id: this.id } })
         },
-    },
-    beforeMount() {
-        this.$axios.get('http://localhost:8080/bill/list?userId=' + this.id)
-            .then(res => res.data).then(res => {
-                this.result = res
-                console.log(res)
+        // 查询最近的账单记录
+        list() {
+            this.$axios.get('http://localhost:8080/bill/listByYM', {
+                params: {
+                    userId: this.id,
+                    year: this.year,
+                    month: this.month
+                }
             })
-    }
+                .then(res => {
+                    this.result = res.data
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.$router.push('/')
+                })
+        },
+        // 计算支出和收入
+        count() {
+            this.income = 0
+            this.expenses = 0
+            for(var i in this.result) {
+                console.log(this.result[Number(i)].amount)
+                if (this.result[Number(i)].type) {
+                    this.income += this.result[Number(i)].amount
+                } else {
+                    this.expenses += this.result[Number(i)].amount
+                }
+            }
+        }
+    },
+    created() {
+        this.list()
+    },
 }
 </script>
 <style scoped>

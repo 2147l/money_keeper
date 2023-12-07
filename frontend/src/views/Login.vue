@@ -66,7 +66,7 @@ export default {
             this.$axios.post('http://localhost:8080/user/login', param)
                 .then(res => {
                     console.log(res) // 控制台打印返回结果观察
-                    res = res.data
+                    res = res.data  
                     this.$router.push({ path: '/main', query: { id: res.id } })
                 })
                 .catch(err => {

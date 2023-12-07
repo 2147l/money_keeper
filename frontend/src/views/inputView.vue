@@ -191,6 +191,7 @@ export default {
         categoryId: this.categoryId,
         type: true,
         amount: this.output,
+        date: "",
         note: this.note
       })
         .then(res => res.data).then(res => {
