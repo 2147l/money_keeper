@@ -28,20 +28,20 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getById")
-    @Operation(summary = "使用id查找用户")
+    @Operation(summary = "根据用户id查找用户")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "成功查询", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "查找的用户不存在", content = @Content)
+            @ApiResponse(responseCode = "200", description = "查询成功", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "204", description = "查找的用户不存在", content = @Content),
+            @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
-    @Parameter(name = "id", description = "用户id", example = "1")
-    public ResponseEntity<List<User>> getById(@RequestParam int id) {
+    @Parameter(name = "userId", description = "用户id", example = "1")
+    public ResponseEntity<List<User>> getById(@RequestParam int userId) {
         LambdaQueryWrapper<User> query = new LambdaQueryWrapper<>();
-        query.eq(User::getId, id);
+        query.eq(User::getId, userId);
         List<User> res = userService.list(query);
         if (res.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(res, HttpStatus.OK);
         }
@@ -52,6 +52,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "登录成功", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content),
             @ApiResponse(responseCode = "401", description = "账号或密码错误", content = @Content)
     })
     @Parameters(value = {
@@ -69,6 +70,17 @@ public class UserController {
             return new ResponseEntity<>(res.get(0), HttpStatus.OK);
         }
 
+    }
+
+    @PostMapping("/update")
+    @Operation(summary = "更新用户信息")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "更新成功", content = @Content),
+            @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
+    })
+    public ResponseEntity update(@RequestBody User user) {
+        userService.updateById(user);
+        return ResponseEntity.ok().build();
     }
 
 }

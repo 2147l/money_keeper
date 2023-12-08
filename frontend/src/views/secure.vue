@@ -1,9 +1,11 @@
 <template>
     <div class="version">
+        <!-- 标题：账户安全中心 -->
         <div class="title">
-            <div class="exit"><img src="../assets/image/左箭头.png" alt=""></div>
+            <div class="exit"><img src="../assets/image/左箭头.png" alt="" @click="goBack"></div>
             账户安全中心
         </div>
+        <!-- 风险标志 -->
         <div class="logo1">
             <img src="../assets/image/报警.png" alt="">
             <br>
@@ -13,21 +15,25 @@
             <label for="" class="label2">绑定的登录方式过少</label>
 
         </div>
+        <!-- 绑定手机号 -->
         <div class="item">
             <img src="../assets/image/打叉.png" alt="">
             <label for="">手机号</label>
             <button>去绑定</button>
         </div>
+        <!-- 绑定微信号 -->
         <div class="item">
             <img src="../assets/image/打勾.png" alt="">
             <label for="">微信号</label>
             <button class="button1">已绑定</button>
         </div>
+        <!-- 填写应急联系方式 -->
         <div class="item">
             <img src="../assets/image/打叉.png" alt="">
             <label for="">应急联系方式</label>
             <button>去填写</button>
         </div>
+        <!-- 检测登录状态 -->
         <div class="item">
             <img src="../assets/image/打勾.png" alt="">
             <label for="">登录状态</label>
@@ -43,6 +49,13 @@
 export default {
     data() {
         return {
+            id: this.$route.query.id
+        }
+    },
+    methods: {
+        // 返回上一页
+        goBack() {
+            this.$router.go(-1)
         }
     }
 }

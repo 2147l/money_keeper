@@ -1,10 +1,9 @@
 package com.backend.mapper;
 
 import com.backend.entity.Bill;
-import com.backend.vo.BillVo;
+import com.backend.common.BillVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

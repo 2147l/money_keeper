@@ -28,7 +28,7 @@ class BackendApplicationTest {
     @Test
     public void testGetById() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/getById")
-                        .param("id", "1"))
+                        .param("userId", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -39,6 +39,26 @@ class BackendApplicationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/login")
                         .param("phone", "123")
                         .param("password", "123"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        User user = new User();
+        user.setId(2);
+        user.setPhone("13546584563");
+        user.setPassword("123456");
+        user.setUsername("小王同学");
+        user.setAvatar("src/assets/avatar/2.png");
+        user.setSex("男");
+        user.setWechat("xiaowangtongxue");
+        user.setEmail("xiaowang@email.com");
+        String jsonStr = Json.pretty(user);
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonStr))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -64,6 +84,15 @@ class BackendApplicationTest {
     }
 
     @Test
+    public void testDeleteBill() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete("/bill/delete")
+                        .param("billId", "1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
     public void testListById() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/bill/listById")
                         .param("userId", "1"))
@@ -78,6 +107,16 @@ class BackendApplicationTest {
                         .param("userId", "1")
                         .param("year", "2023")
                         .param("month", "12"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetYearSum() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/bill/getYearSum")
+                        .param("userId", "1")
+                        .param("year", "2022"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();

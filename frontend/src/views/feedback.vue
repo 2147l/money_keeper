@@ -1,13 +1,17 @@
 <template>
     <div class="feedback">
+        <!-- 标题 -->
         <div class="title">
-            <div class="exit"><img src="../assets/image/左箭头.png" alt=""></div>
+            <div class="exit"><img src="../assets/image/左箭头.png" alt="" @click="goBack"></div>
             意见反馈
         </div>
         <!-- 下面填充反馈内容 -->
         <div></div>
+        <!-- 发送模块 -->
         <div class="send">
+            <!-- 文本输入 -->
             <textarea name="" id="" cols="30" rows="10" placeholder="请输入"></textarea>
+            <!-- 发送按钮 -->
             <button>发送</button>
         </div>
 
@@ -17,6 +21,13 @@
 export default {
     data() {
         return {
+            id: this.$route.query.id
+        }
+    },
+    methods: {
+        // 返回上一页
+        goBack() {
+            this.$router.go(-1)
         }
     }
 }

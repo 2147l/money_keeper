@@ -1,4 +1,4 @@
-# 软件工程大作业
+# 前端必看
 
 ## 路由
 
@@ -25,3 +25,15 @@ this.$axios.get('http://localhost:8080/接口地址', 参数可选)
         obj = res // 将结果res保存在任意位置
     })
 ```
+
+# 后端必看
+
+## yml配置
+
+打开`money_keeper\backend\src\main\resources\application.yml`
+根据提示修改一下配置文件即可
+
+## 数据库
+
+新建一个数据库，然后控制台执行`money_keeper.sql`里的代码即可，当前包含三个表，user、bill以及category，
+各个字段的意义都有注释

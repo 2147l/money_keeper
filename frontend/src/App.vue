@@ -11,6 +11,9 @@
   <!-- <secure /> -->
   <!-- <lineChartOutput /> -->
   <!-- <lineChartIntput /> -->
+  <!-- <tabBar /> -->
+  <!-- <bill /> -->
+
 </template>
 <script>
 import Login from './views/Login.vue'
@@ -24,6 +27,8 @@ import myInfo from "./views/myInfo.vue"
 import secure from "./views/secure.vue"
 import lineChartOutput from "./views/lineChartOutput.vue"
 import lineChartIntput from "./views/lineChartInput.vue"
+import tabBar from './components/tabBar.vue'
+import bill from './views/bill.vue'
 export default {
   components: {
     Login,
@@ -36,7 +41,9 @@ export default {
     myInfo,
     secure,
     lineChartOutput,
-    lineChartIntput
+    lineChartIntput,
+    tabBar,
+    bill,
   }
 }
 </script>

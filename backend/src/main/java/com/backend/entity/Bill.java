@@ -1,6 +1,7 @@
 package com.backend.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Null;
@@ -26,4 +27,8 @@ public class Bill {
     private String date;
     @Schema(description = "备注", example = "聚会")
     private String note;
+    @TableField(exist = false)
+    private BigDecimal incomeSum;
+    @TableField(exist = false)
+    private BigDecimal expenseSum;
 }

@@ -1,10 +1,12 @@
 <template>
     <div class="banner">
-        <select id="optType">
-            <!-- 需要帮忙加一下支出收入页面的跳转路由 -->
+        <img src="src/assets/image/左箭头.png" alt="" class="cancel" @click="goBack">
+        <!-- 切换支出/收入页面 -->
+        <select id="optType" @change="goto">
             <option selected>支出</option>
             <option>收入</option>
         </select>
+        <span style="padding-left: 43px"></span>
         <!-- 周月年选择标签 -->
         <ul class="date">
             <li @click="changeState1" :class="{ chosen: flag1, unchosen: !flag1 }">周</li>
@@ -692,11 +694,14 @@
             </li>
         </ul>
     </div>
+    <tabBar :id="this.id"></tabBar>
 </template>
 <script>
 export default {
     data() {
         return {
+            id: this.$route.query.id,
+            optType: "/lineChartOutput",
             // week的相关标志,比如flag1是周标签,flag11、flag12、flag13则分别是上上周、上周、本周标签
             flag1: true,
             flag11: false,
@@ -717,6 +722,12 @@ export default {
         }
     },
     methods: {
+        goto() {
+            this.$router.replace({ path: "/lineChartInput", query: { id: this.id } })
+        },
+        goBack() {
+            this.$router.go(-1)
+        },
         changeState1() {
             this.flag1 = true;
             this.flag2 = false;
@@ -794,6 +805,11 @@ export default {
     height: 90px;
     background-color: #FFD946;
     text-align: center;
+}
+
+.cancel {
+    float: left;
+    padding: 18px 0 0 15px;
 }
 
 #optType {

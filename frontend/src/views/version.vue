@@ -1,7 +1,7 @@
 <template>
     <div class="version">
         <div class="title">
-            <div class="exit"><img src="../assets/image/左箭头.png" alt=""></div>
+            <div class="exit"><img src="../assets/image/左箭头.png" alt="" @click="goBack"></div>
             关于记账本
         </div>
         <!-- 记帐本logo -->
@@ -14,7 +14,7 @@
         <!-- 记帐本版本号 -->
         <div class="item">
             <label for="">当前版本</label>
-            <label for="" class="curVer">version 1.0.0</label>
+            <label for="" class="curVer">version 2.0.0</label>
         </div>
         <!-- 记账本隐私协议 -->
         <div class="item">
@@ -38,15 +38,20 @@
         </div>
 
 
-
-
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
+            id: this.$route.query.id,
         }
+    },
+    methods: {
+        // 返回上一个页面
+        goBack() {
+            this.$router.go(-1)
+        },
     }
 }
 </script>

@@ -2,6 +2,7 @@ package com.backend.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class User {
     private Integer id;
     @Schema(description = "电话号码", example = "13512345678")
     private String phone;
+    @JsonIgnore
     @Schema(description = "密码", example = "123456")
     private String password;
     @Schema(description = "昵称", example = "小王")

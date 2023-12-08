@@ -2,6 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # 这里将“jdbc:mysql://localhost:3306/money_keeper”换成自己数据库的访问地址，然后修改自己数据库的账号密码
     url: jdbc:mysql://localhost:3306/money_keeper?serverTimezone=GMT%2B8&characterEncoding=UTF-8
     username: root
     password: root

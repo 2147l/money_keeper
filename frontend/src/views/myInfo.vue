@@ -1,11 +1,15 @@
 <template>
     <div class="myInfo">
-        <div class="banner">
-            <div class="info">
-                <img src="../assets/image/头像.png" alt="" class="avatorImg">
-                <label for="" class="infoText">测试者</label>
+        <div class="banner" v-if="isShow">
+            <img src="src/assets/image/左箭头.png" alt="" class="cancel" @click="goBack">
+            <!-- 用户信息展示内容：这里主要是头像和昵称  -->
+            <div class="info" @click="gotoAccount">
+                <img :src=result.avatar alt="" class="avatorImg">
+                <label for="" class="infoText">{{ result.username }}</label>
             </div>
+            <!-- 打卡信息 -->
             <button>{{ message }}</button>
+            <!-- 我的模块一些记账总览 -->
             <div>
                 <ul>
                     <li class="first">
@@ -27,25 +31,26 @@
                 </ul>
             </div>
         </div>
+        <!-- 主体内容 -->
         <div class="content">
-            <div class="item">
+            <!-- 账户安全中心栏目 -->
+            <div class="item" @click="goto('/secure')">
                 <img src="../assets/image/安全.png" alt="">
                 <label for="">&nbsp;&nbsp;账户安全中心</label>
                 <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
-
-
             </div>
-            <div class="item">
+            <!-- 意见反馈栏目 -->
+            <div class="item" @click="goto('/feedback')">
                 <img src="../assets/image/反馈.png" alt="">
                 <label for="">&nbsp;&nbsp;意见反馈</label>
                 <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             </div>
-            <div class="item">
+            <!-- 记账本版本栏目 -->
+            <div class="item" @click="goto('version')">
                 <img src="../assets/image/版本.png" alt="">
                 <label for="">&nbsp;&nbsp;关于记账本</label>
                 <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
             </div>
-
         </div>
     </div>
 </template>
@@ -53,15 +58,62 @@
 export default {
     data() {
         return {
+            isShow: false,
+            id: this.$route.query.id,
             message: "已打卡",
             clockInNum: 1,
             accountDayNum: 1,
-            accountNum: 1
+            accountNum: 1,
+            result: {
+                id: null,
+                phone: null,
+                password: null,
+                username: null,
+                avatar: null,
+                sex: null,
+                wechat: null,
+                email: null
+            }
         }
+    },
+    methods: {
+        // 返回上一个页面
+        goBack() {
+            this.$router.go(-1)
+        },
+        // 向后台获取用户数据
+        getInfor() {
+            this.$axios.get("http://localhost:8080/user/getById", { params: { userId: this.id} })
+                .then(res => {
+                    this.result = res.data[0]
+                    if (this.result.avatar == null)
+                        this.result.avatar = "src/assets/image/我的.png"
+                    this.isShow = true
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        // 跳转到其他页面
+        goto(url) {
+            this.$router.push({ path: url, query: { id: this.id } })
+        },
+        gotoAccount() {
+            this.$router.push({ path: "/account", query: { id: this.id } })
+        }
+    },
+    created() {
+        this.getInfor()
     }
 }
 </script>
 <style scoped>
+.cancel {
+    padding-top: 18px;
+    padding-left: 15px;
+}
+
 .myInfo {
     width: 390px;
     height: 844px;
@@ -78,7 +130,7 @@ export default {
 
 .info {
     position: absolute;
-    margin-top: 50px;
+    margin-top: 10px;
     width: 390px;
     height: 70px;
     line-height: 70px;
@@ -111,7 +163,7 @@ button {
 
 ul {
     position: absolute;
-    margin-top: 140px;
+    margin-top: 85px;
     width: 390px;
     text-align: center;
 }
@@ -138,6 +190,10 @@ ul .first {
     font-weight: 600;
 }
 
+.content {
+    padding-top: 10px;
+}
+
 .item {
     margin-left: 15px;
     padding-left: 12px;
@@ -147,6 +203,13 @@ ul .first {
     background-color: #fff;
     line-height: 55px;
     border-radius: 5px;
+}
+
+
+.exit{
+    left: 167px;
+    position: absolute;
+    font-size: 14px;
 }
 
 .rightArrow {
