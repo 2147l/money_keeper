@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class BillController {
             @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createBill(@Parameter(description = "账单对象") @RequestBody Bill bill) {
+    public ResponseEntity createBill(@Parameter(description = "账单对象") @RequestBody Bill bill) {
         // 金额为0则不创建
         if (bill.getAmount().compareTo(BigDecimal.ZERO) == 0)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -52,13 +55,16 @@ public class BillController {
         if (null == bill.getDate() || bill.getDate().isEmpty()) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             bill.setDate(simpleDateFormat.format(new Date()));
+        } else {
+            // 格式化日期
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+            LocalDate date = LocalDate.parse(bill.getDate(), formatter);
+            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            bill.setDate(formatter2.format(date));
         }
-        try {
-            billService.save(bill);
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
+        billService.save(bill);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "根据账单id删除记录")
@@ -126,6 +132,23 @@ public class BillController {
         // 未传参自动抛出错误400
     }
 
+
+    @Operation(summary = "查询本周的所有记录", description = "未实现")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "查询成功", content = @Content(
+                    mediaType = "application/json", schema = @Schema(implementation = BillVo.class))),
+            @ApiResponse(responseCode = "204", description = "无任何记录", content = @Content),
+            @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
+    })
+    @Parameters(value = {
+            @Parameter(name = "userId", description = "用户id", example = "1"),
+    })
+    @GetMapping("/listWeek")
+    public ResponseEntity<List<BillVo>> listWeek(@RequestParam Integer userId) {
+        return ResponseEntity.notFound().build();
+        // 未传参自动抛出错误400
+    }
+
     @Operation(summary = "获取某年的总收入，总支出")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "查询成功", content = @Content(
@@ -160,6 +183,50 @@ public class BillController {
         result.setIncome(bill1 == null ? BigDecimal.valueOf(0L) : bill1.getIncomeSum());
         result.setExpense(bill2 == null ? BigDecimal.valueOf(0L) : bill2.getExpenseSum());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Operation(summary = "获取某年每个月的总收入，总支出")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "查询成功", content = @Content(
+                    mediaType = "application/json", schema = @Schema(implementation = InAndOut.class))),
+            @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
+    })
+    @Parameters(value = {
+            @Parameter(name = "userId", description = "用户id", example = "1"),
+            @Parameter(name = "year", description = "年份", example = "2023"),
+    })
+    @GetMapping("/getYearMonthSum")
+    public ResponseEntity<List<InAndOut>> getYearMonthSum(@RequestParam Integer userId, @RequestParam String year) {
+        // 对年份进行校验
+        if (year.length() != 4)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        List<InAndOut> res = new ArrayList<>();
+        QueryWrapper<Bill> query = new QueryWrapper<>();
+        for (int i = 1; i <= 12; i++) {
+            String yearMonth = year + "-";
+            if (i < 10)
+                yearMonth += "0" + i;
+            else
+                yearMonth += i;
+            query.clear();
+            query.select("sum(amount) as incomeSum");
+            query.eq("user_id", userId);
+            query.eq("type", true);
+            query.likeRight("date", yearMonth);
+            Bill bill1 = billService.getOne(query); // 通过sum语句查询，只需要第一条结果
+            query.clear();  // 清空查询语句
+            query.select("sum(amount) as expenseSum");
+            query.eq("user_id", userId);
+            query.eq("type", false);
+            query.likeRight("date", yearMonth);
+            Bill bill2 = billService.getOne(query);
+            // 判断如果存在空查询，则该项结果需要手动置为0
+            InAndOut result = new InAndOut();
+            result.setIncome(bill1 == null ? BigDecimal.valueOf(0L) : bill1.getIncomeSum());
+            result.setExpense(bill2 == null ? BigDecimal.valueOf(0L) : bill2.getExpenseSum());
+            res.add(result);
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
 

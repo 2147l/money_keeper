@@ -33,6 +33,12 @@
         </div>
         <!-- 主体内容 -->
         <div class="content">
+            <!-- 每月预算栏目 -->
+            <div class="item" @click="goto('/budget')">
+                <img src="../assets/image/预算.png" alt="">
+                <label for="">&nbsp;&nbsp;每月预算</label>
+                <img src="../assets/image/右箭头.png" alt="" class="rightArrow">
+            </div>
             <!-- 账户安全中心栏目 -->
             <div class="item" @click="goto('/secure')">
                 <img src="../assets/image/安全.png" alt="">

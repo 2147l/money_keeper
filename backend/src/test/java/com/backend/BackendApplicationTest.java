@@ -1,7 +1,7 @@
 package com.backend;
 
-import com.backend.controller.UserController;
 import com.backend.entity.Bill;
+import com.backend.entity.Budget;
 import com.backend.entity.User;
 import io.swagger.v3.core.util.Json;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -27,7 +26,7 @@ class BackendApplicationTest {
 
     @Test
     public void testGetById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/getById")
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/getById")
                         .param("userId", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -36,7 +35,7 @@ class BackendApplicationTest {
 
     @Test
     public void testLogin() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/login")
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/login")
                         .param("phone", "123")
                         .param("password", "123"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -47,7 +46,7 @@ class BackendApplicationTest {
     @Test
     public void testUpdateUser() throws Exception {
         User user = new User();
-        user.setId(2);
+        user.setId(1);
         user.setPhone("13546584563");
         user.setPassword("123456");
         user.setUsername("小王同学");
@@ -56,13 +55,14 @@ class BackendApplicationTest {
         user.setWechat("xiaowangtongxue");
         user.setEmail("xiaowang@email.com");
         String jsonStr = Json.pretty(user);
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/update")
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonStr))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
 
     @Test
     public void testCreateBill() throws Exception {
@@ -72,10 +72,10 @@ class BackendApplicationTest {
         bill.setCategoryId(1);
         bill.setType(false);
         bill.setAmount(BigDecimal.valueOf(-66.6));
-        bill.setDate("");
+        bill.setDate("2021-3-27");
         bill.setNote("测试");
         String jsonStr = Json.pretty(bill);
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/bill/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/bill/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonStr))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -85,7 +85,7 @@ class BackendApplicationTest {
 
     @Test
     public void testDeleteBill() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete("/bill/delete")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/bill/delete")
                         .param("billId", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -94,7 +94,7 @@ class BackendApplicationTest {
 
     @Test
     public void testListById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/bill/listById")
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/listById")
                         .param("userId", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -103,7 +103,7 @@ class BackendApplicationTest {
 
     @Test
     public void testListByYM() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/bill/listByYM")
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/listByYM")
                         .param("userId", "1")
                         .param("year", "2023")
                         .param("month", "12"))
@@ -114,9 +114,53 @@ class BackendApplicationTest {
 
     @Test
     public void testGetYearSum() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/bill/getYearSum")
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/getYearSum")
                         .param("userId", "1")
-                        .param("year", "2022"))
+                        .param("year", "2023"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetYearMonthSum() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/getYearMonthSum")
+                        .param("userId", "1")
+                        .param("year", "2023"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testCreateFeedback() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/feedback/create")
+                        .param("userId", "1")
+                        .param("content", "测试添加反馈"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testCreateBudget() throws Exception {
+        Budget budget = new Budget();
+//        budget.setId(1);
+        budget.setUserId(1);
+        budget.setPlan(BigDecimal.valueOf(1000));
+        String jsonStr = Json.pretty(budget);
+        mockMvc.perform(MockMvcRequestBuilders.post("/budget/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonStr))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetBudget() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/budget/get")
+                        .param("userId", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();

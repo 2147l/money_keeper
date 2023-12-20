@@ -2,12 +2,12 @@
     <div class="header">
         <!-- 年份选择器 -->
         <!-- 如果是月账单，显示年份选择器 -->
-        <select v-if="showMonthly" class="year">
-            <option>2021年</option>
-            <option>2022年</option>
+        <select v-if="showMonthly" class="year" v-model="year" @change="showMonthlyBills">
+            <option value="2021">2021年</option>
+            <option value="2022">2022年</option>
             <!-- 下拉框默认值用selected -->
-            <option selected>2023年</option>
-            <option>2024年</option>
+            <option value="2023">2023年</option>
+            <option value="2024">2024年</option>
         </select>
 
         <!-- 月账单和年账单的按钮 -->
@@ -86,7 +86,7 @@
                 <li>{{ bill.id }}</li>
                 <li>{{ bill.income }}</li>
                 <li>{{ bill.expense }}</li>
-                <li>{{ bill.balance }}</li>
+                <li>{{ bill.income + bill.expense }}</li>
             </ul>
         </div>
     </div>
@@ -97,15 +97,23 @@ export default {
     data() {
         return {
             id: this.$route.query.id,
+            year: 2023,
             showMonthly: true,
             showYearly: false,
-            monthlySummary: {}, // 月账单汇总数据
+            monthlySummary: {
+                yearBalance: 0,
+                yearIncome: 0,
+                yearExpense: 0,
+            }, // 月账单汇总数据
             monthlyBills: [], // 月账单明细数据
-            yearlySummary: {}, // 年账单汇总数据
+            yearlySummary: {
+                totalBalance: 0,
+                totalIncome: 0,
+                totalExpense: 0
+            }, // 年账单汇总数据
             yearlyBills: [], // 年账单明细数据
         };
     },
-
     created() {
         // 在组件创建后立即获取初始数据
         this.showMonthlyBills(); // 或者 this.showYearlyBills();
@@ -118,69 +126,90 @@ export default {
 
             // todo
             // 在此处获取月账单数据并更新 monthlySummary 和 monthlyBills
-
+            this.$axios.get('http://localhost:8080/bill/getYearSum',
+                { params: { userId: this.id, year: this.year } })
+                .then(res => {
+                    // console.log(res.data)
+                    this.monthlySummary.yearIncome = res.data.income
+                    this.monthlySummary.yearExpense = res.data.expense
+                    this.monthlySummary.yearBalance = this.monthlySummary.yearIncome + this.monthlySummary.yearExpense
+                })
+                .catch(err => {
+                    console.log(err)
+                })
             // 模拟获取月账单数据
-            const mockMonthlySummary = {
-                yearBalance: 770.0,
-                yearIncome: 3450.0,
-                yearExpense: 2680.0,
-            };
-
-            const mockMonthlyBills = [
-                {
-                    id: "12" + "月",
-                    income: 200,
-                    expense: 30,
-                    balance: 170,
-                },
-                {
-                    id: "11" + "月",
-                    income: 400,
-                    expense: 500,
-                    balance: -100,
-                },
-                {
-                    id: "10" + "月",
-                    income: 500,
-                    expense: 300,
-                    balance: 200,
-                },
-                {
-                    id: "9" + "月",
-                    income: 400,
-                    expense: 250,
-                    balance: 150,
-                },
-                {
-                    id: "8" + "月",
-                    income: 550,
-                    expense: 500,
-                    balance: 50,
-                },
-                {
-                    id: "7" + "月",
-                    income: 400,
-                    expense: 450,
-                    balance: -50,
-                },
-                {
-                    id: "6" + "月",
-                    income: 600,
-                    expense: 400,
-                    balance: 200,
-                },
-                {
-                    id: "5" + "月",
-                    income: 400,
-                    expense: 250,
-                    balance: 150,
-                }
-                // ... 更多月份数据
-            ];
+            // const mockMonthlySummary = {
+            //     yearBalance: 770.0,
+            //     yearIncome: 3450.0,
+            //     yearExpense: 2680.0,
+            // };
+            this.$axios.get('http://localhost:8080/bill/getYearMonthSum',
+                { params: { userId: this.id, year: this.year } })
+                .then(res => {
+                    // console.log(res.data)
+                    this.monthlyBills = res.data
+                    for (let i = 0; i < 12; i++) {
+                        this.monthlyBills[i].id = i + 1 + "月"
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            // const mockMonthlyBills = [
+            //     {
+            //         id: "12" + "月",
+            //         income: 200,
+            //         expense: 30,
+            //         balance: 170,
+            //     },
+            //     {
+            //         id: "11" + "月",
+            //         income: 400,
+            //         expense: 500,
+            //         balance: -100,
+            //     },
+            //     {
+            //         id: "10" + "月",
+            //         income: 500,
+            //         expense: 300,
+            //         balance: 200,
+            //     },
+            //     {
+            //         id: "9" + "月",
+            //         income: 400,
+            //         expense: 250,
+            //         balance: 150,
+            //     },
+            //     {
+            //         id: "8" + "月",
+            //         income: 550,
+            //         expense: 500,
+            //         balance: 50,
+            //     },
+            //     {
+            //         id: "7" + "月",
+            //         income: 400,
+            //         expense: 450,
+            //         balance: -50,
+            //     },
+            //     {
+            //         id: "6" + "月",
+            //         income: 600,
+            //         expense: 400,
+            //         balance: 200,
+            //     },
+            //     {
+            //         id: "5" + "月",
+            //         income: 400,
+            //         expense: 250,
+            //         balance: 150,
+            //     }
+            //     // ... 更多月份数据
+            // ];
 
             // 更新数据
-            this.monthlySummary = mockMonthlySummary;
-            this.monthlyBills = mockMonthlyBills;
+            // this.monthlySummary = mockMonthlySummary;
+            // this.monthlyBills = mockMonthlyBills;
         },
         // 显示年账单
         showYearlyBills() {
@@ -190,6 +219,29 @@ export default {
 
             // todo
             // 在此处获取年账单数据并更新 yearlySummary 和 yearlyBills
+            // let i = 2021
+            // for (i = 2021; i <= 2023; i++) {
+            //     this.$axios.get('http://localhost:8080/bill/getYearSum',
+            //         { params: { userId: this.id, year: i } })
+            //         .then(res => {
+            //             console.log(res.data)
+            //             let tmp = {
+            //                 id: i + "年",
+            //                 income: res.data.income,
+            //                 expense: res.data.expense,
+            //                 balance: res.data.income + res.data.expense,
+            //             }
+            //             this.yearlyBills.push(tmp)
+            //             console.log(i)
+            //             this.yearlySummary.totalBalance += tmp.balance
+            //             this.yearlySummary.totalIncome += tmp.income
+            //             this.yearlySummary.totalExpense += tmp.expense
+
+            //         })
+            //         .catch(err => {
+            //             console.log(err)
+            //         })
+            // }
 
             // 模拟获取年账单数据
             const mockYearlySummary = {
@@ -233,7 +285,7 @@ export default {
             this.yearlyBills = mockYearlyBills;
         },
         goBack() {
-            this.$router.go(-2)
+            this.$router.go(-1)
         }
     },
 

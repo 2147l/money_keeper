@@ -40,11 +40,11 @@
           <img src="../assets/icon/其他.png" height="30" width="30"/></div>
         <div class="text">其他</div>
       </div>
-      <div class="group" id="setting" @click="categoryId = null; clickShow('setting')">
+      <!-- <div class="group" id="setting" @click="categoryId = null; clickShow('setting')">
         <div class="icon" :style="{ backgroundColor: backgroundColor === 'setting' ? '#ffd946' : 'white' }">
           <img src="../assets/icon/设置.png" height="30" width="30" alt=""/></div>
         <div class="text">设置</div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -309,6 +309,8 @@ body {
   text-align: center;
   background: #ffffff;
   display: inline-block;
+  border: 1px solid black;
+  font-size: 18px;
 }
 
 .remark {
@@ -334,6 +336,7 @@ body {
   z-index: 1;
   position: fixed;
   bottom: 0;
+  width: 390px;
 }
 
 .block {

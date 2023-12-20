@@ -10,6 +10,7 @@ import lineChartOutput from "../views/lineChartOutput.vue"
 import secure from "../views/secure.vue"
 import version from "../views/version.vue"
 import bill from "../views/bill.vue"
+import budget from "../views/budget.vue"
 
 const routes = [
     { path: '', redirect: '/login'},
@@ -25,6 +26,7 @@ const routes = [
     { path: '/output', component: outputView },
     { path: '/secure', component: secure},
     { path: '/version', component: version},
+    { path: '/budget', component: budget },
 ]
 
 export default routes

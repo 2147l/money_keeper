@@ -10,9 +10,9 @@
         <!-- 发送模块 -->
         <div class="send">
             <!-- 文本输入 -->
-            <textarea name="" id="" cols="30" rows="10" placeholder="请输入"></textarea>
+            <textarea name="" id="" cols="30" rows="10" placeholder="请输入" v-model="content"></textarea>
             <!-- 发送按钮 -->
-            <button>发送</button>
+            <button @click="sendFeedback">发送</button>
         </div>
 
     </div>
@@ -21,13 +21,29 @@
 export default {
     data() {
         return {
-            id: this.$route.query.id
+            id: this.$route.query.id,
+            content: null,
         }
     },
     methods: {
         // 返回上一页
         goBack() {
             this.$router.go(-1)
+        },
+        sendFeedback() {
+            if (this.content == null) {
+                return;
+            }
+            let param = new URLSearchParams
+            param.append('userId', this.id)
+            param.append('content', this.content)
+            this.$axios.post('http://localhost:8080/feedback/create', param)
+                .then(res => {
+                    this.goBack()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
     }
 }

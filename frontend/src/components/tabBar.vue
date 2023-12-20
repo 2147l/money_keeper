@@ -30,9 +30,9 @@ export default {
                     url: "/output",
                 },
                 {
-                    img: "src/assets/image/发现.png",
-                    name: "发现",
-                    url: "",
+                    img: "src/assets/image/账单.png",
+                    name: "账单",
+                    url: "/bill",
                 },
                 {
                     img: "src/assets/image/我的.png",

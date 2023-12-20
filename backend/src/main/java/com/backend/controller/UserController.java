@@ -1,8 +1,13 @@
 package com.backend.controller;
 
+import com.backend.common.InAndOut;
+import com.backend.entity.Bill;
 import com.backend.entity.User;
+import com.backend.mapper.BillMapper;
+import com.backend.service.BillService;
 import com.backend.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -17,6 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -26,6 +35,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BillService billService;
 
     @GetMapping("/getById")
     @Operation(summary = "根据用户id查找用户")
@@ -76,11 +88,16 @@ public class UserController {
     @Operation(summary = "更新用户信息")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "更新成功", content = @Content),
+            @ApiResponse(responseCode = "204", description = "用户不存在", content = @Content),
             @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
     public ResponseEntity update(@RequestBody User user) {
+        User tmp = userService.getById(user.getId());
+        if (tmp == null)
+            return ResponseEntity.noContent().build();
         userService.updateById(user);
         return ResponseEntity.ok().build();
     }
 
 }
+

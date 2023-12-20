@@ -42,25 +42,15 @@
         </div>
         <!-- 其他功能（待实现） -->
         <div class="item">
-            <ul>
-                <li><a href="#" @click="goto('/bill')"><img src="../assets/image/main_item1.png" width="50" height="50"
-                            alt=""><br>
-                        <div class="item_content">账&nbsp;单</div>
-                    </a></li>
-                <li><a href="#"><img src="../assets/image/main_item2.png" width="50" height="50" alt=""><br>
-                        <div class="item_content">预&nbsp;算</div>
-                    </a></li>
-                <li><a href="#"><img src="../assets/image/main_item3.png" width="50" height="50" alt=""><br>
-                        <div class="item_content">汇&nbsp;率</div>
-                    </a></li>
-                <li><a href="#"><img src="../assets/image/main_item4.png" width="50" height="50" alt=""><br>
-                        <div class="item_content">账&nbsp;本</div>
-                    </a></li>
-                <li><a href="#"><img src="../assets/image/main_item5.png" width="50" height="50" alt=""><br>
-                        <div class="item_content">更&nbsp;多</div>
-                    </a></li>
-
-            </ul>
+            <span>预算：{{ budget > 0 ? budget : "未设置" }}</span>
+            <span>已用：{{ percentage }}%</span>
+            <div class="totalProgress">
+                <div class="currProgress" :style="{
+                    width:percentage <= 100? percentage+'%': '100%',
+                    backgroundColor: percentage <= 60 ? '#81DD1C' : (percentage <= 80 ? '#F68C00': '#F63434')
+                    }"></div>
+            </div>
+            <!-- 测试进度条样式 <input type="number" v-model="percentage"> -->
         </div>
     </div>
     <!-- 这是主界面账单主体模块 -->
@@ -90,18 +80,13 @@
                     <label for="">{{ bill.date }}</label>
                 </div>
                 <!-- 打印记录的类型，金额 -->
-                <li @touchstart.prevent="touchin(bill.id)" @touchend.prevent="cleartime(bill.id)">
+                <li>
                     <img :src="bill.icon" width="30" height="30" :alt="bill.name">&nbsp;&nbsp;
                     <input type="text" :value=bill.name><input type="text" :value=bill.amount class="expense_detail">
                 </li>
             </ul>
         </div>
 
-    </div>
-    <div class="delete" v-show="isDelete">
-        <div>是否删除</div>
-        <button @click="confirmDelete" id="confirmDelete">确认</button>
-        <button @click="cancelDelete" id="cancelDelete">取消</button>
     </div>
     <tabBar :id="this.id"></tabBar>
 </template>
@@ -112,12 +97,12 @@ export default {
         return {
             id: this.$route.query.id,
             isShow: false,
-            isDelete: false,
-            deleteId: null,
             year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
             income: 0,
             expenses: 0,
+            budget: 0,
+            percentage: 0,
             result: {
                 id: null,
                 userId: null,
@@ -167,6 +152,17 @@ export default {
                     console.log(err)
                 })
         },
+        // 查询预算情况
+        getBudget() {
+            this.$axios.get('http://localhost:8080/budget/get', { params: { userId: this.id } })
+            .then(res => {
+                this.budget = res.data.plan
+                this.percentage = res.data.percentage
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        },
         // 计算支出和收入
         count() {
             this.income = 0
@@ -180,38 +176,10 @@ export default {
                 }
             }
         },
-        // 确认删除记录
-        confirmDelete() {
-            this.$axios.delete('http://localhost:8080/bill/delete', { params: {billId: this.deleteId} })
-                .then(res => {
-                    this.list()
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            this.deleteId = null
-            this.isDelete = false
-        },
-        cancelDelete() {
-            this.deleteId = null
-            this.isDelete = false
-        },
-        touchin(id) {
-            clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
-            this.Loop = setTimeout(function () {
-                // alert('是否确认删除')
-                this.isDelete = true
-                this.deleteId = id
-                // console.log(this.deleteId)
-            }.bind(this), 500)
-        },
-        cleartime(id) {
-            // 这个方法主要是用来将每次手指移出之后将计时器清零
-            clearInterval(this.Loop)
-        },
     },
     created() {
         this.list()
+        this.getBudget()
     },
 }
 </script>
@@ -282,15 +250,32 @@ option {
     border-radius: 10px;
 }
 
-.item_content {
-    text-align: center;
+.item span:nth-child(1) {
+    float: left;
+    margin: 10px;
+    font-size: 16px;
 }
 
-.item ul li {
-    display: inline-block;
-    padding-right: 8px;
-    text-align: center;
-    margin: 6px 5px 0 5px;
+.item span:nth-child(2) {
+    float: right;
+    margin: 10px;
+    font-size: 16px;
+}
+
+.totalProgress {
+    height: 20px;
+    width: 340px;
+    margin: 38px 10px 0 10px;;
+    background-color: #efefef;
+    border-radius: 10px;
+}
+
+.currProgress {
+    height: 20px;
+    /* width: 50%; */
+    margin-top: 38px;
+    background-color: red;
+    border-radius: 10px;
 }
 
 .title {
@@ -303,6 +288,9 @@ option {
 
 }
 
+.Main_content {
+    margin-bottom: 100px;
+}
 
 .Main_content ul li {
     padding: 10px 0 0 22px;
@@ -326,37 +314,4 @@ option {
     margin-right: 30px;
 }
 
-.delete {
-    position: fixed;
-    width: 250px;
-    height: 150px;
-    left: 70px;
-    top: 320px;
-    text-align: center;
-    font-size: 18px;
-    background-color: white;
-    border-style: solid;
-    border-radius: 5px;
-}
-
-.delete div {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.delete button {
-    width: 70px;
-    height: 24px;
-    margin: 10px 20px;
-    border-radius: 2px;
-}
-
-.delete #confirmDelete {
-    background-color: #ff3434;
-}
-
-.delete #cancelDelete {
-    background-color: lightgray;
-}
 </style>
