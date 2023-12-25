@@ -10,17 +10,17 @@
         <!-- 周月年选择标签 -->
         <ul class="date">
             <li @click="changeState1" :class="{ chosen: flag1, unchosen: !flag1 }">周</li>
-            <li @click="changeState2" :class="{ chosen: flag2, unchosen: !flag2 }">月</li>
-            <li @click="changeState3" :class="{ chosen: flag3, unchosen: !flag3 }">年</li>
+            <li @click="changeState2(); drawChart2(0)" :class="{ chosen: flag2, unchosen: !flag2 }">月</li>
+            <li @click="changeState3(); drawChart3(0)" :class="{ chosen: flag3, unchosen: !flag3 }">年</li>
         </ul>
     </div>
     <!-- 周月年各自小标签 -->
     <!-- 这是周的：本周、上周、上上周 -->
     <div>
         <ul class="optLabel" v-show="flag1">
-            <li @click="changeState11" :class="{ chosenOptLabel: flag11, unchosenOptLabel: !flag11 }">上上周</li>
-            <li @click="changeState12" :class="{ chosenOptLabel: flag12, unchosenOptLabel: !flag12 }">上周</li>
-            <li @click="changeState13" :class="{ chosenOptLabel: flag13, unchosenOptLabel: !flag13 }">本周</li>
+            <li @click="changeState11(); drawChart(2)" :class="{ chosenOptLabel: flag11, unchosenOptLabel: !flag11 }">上上周</li>
+            <li @click="changeState12(); drawChart(1)" :class="{ chosenOptLabel: flag12, unchosenOptLabel: !flag12 }">上周</li>
+            <li @click="changeState13(); drawChart(0)" :class="{ chosenOptLabel: flag13, unchosenOptLabel: !flag13 }">本周</li>
         </ul>
     </div>
 
@@ -28,8 +28,8 @@
     <!-- 这是月的：本月、上月、上上月 -->
     <div>
         <ul class="optLabel" v-show="flag2">
-            <li @click="changeState21" :class="{ chosenOptLabel: flag21, unchosenOptLabel: !flag21 }">上上月</li>
-            <li @click="changeState22" :class="{ chosenOptLabel: flag22, unchosenOptLabel: !flag22 }">上月</li>
+            <li @click="changeState21(); drawChart2(2)" :class="{ chosenOptLabel: flag21, unchosenOptLabel: !flag21 }">上上月</li>
+            <li @click="changeState22(); drawChart2(1)" :class="{ chosenOptLabel: flag22, unchosenOptLabel: !flag22 }">上月</li>
             <li @click="changeState23" :class="{ chosenOptLabel: flag23, unchosenOptLabel: !flag23 }">本月</li>
         </ul>
     </div>
@@ -38,8 +38,8 @@
     <!-- 这是年的：今年、去年、前年 -->
     <div>
         <ul class="optLabel" v-show="flag3">
-            <li @click="changeState31" :class="{ chosenOptLabel: flag31, unchosenOptLabel: !flag31 }">前年</li>
-            <li @click="changeState32" :class="{ chosenOptLabel: flag32, unchosenOptLabel: !flag32 }">去年</li>
+            <li @click="changeState31(); drawChart3(2)" :class="{ chosenOptLabel: flag31, unchosenOptLabel: !flag31 }">前年</li>
+            <li @click="changeState32(); drawChart3(1)" :class="{ chosenOptLabel: flag32, unchosenOptLabel: !flag32 }">去年</li>
             <li @click="changeState33" :class="{ chosenOptLabel: flag33, unchosenOptLabel: !flag33 }">今年</li>
         </ul>
     </div>
@@ -51,14 +51,12 @@
     <div class="content11" v-show="flag1 && flag11">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：49.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：7.14</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/上上周收入.png" alt="">
-        </div>
+        <div id="chart2"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -89,14 +87,12 @@
     <div class="content12" v-show="flag1 && flag12">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：131.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：18.71</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/上周收入.png" alt="">
-        </div>
+        <div id="chart1"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -127,14 +123,12 @@
     <div class="content13" v-show="flag1 && flag13">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：120.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：17.14</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/本周收入.png" alt="">
-        </div>
+        <div id="chart0"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -167,14 +161,12 @@
     <div class="content21" v-show="flag2 && flag21">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：100.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：3.23</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/上上月收入.png" alt="">
-        </div>
+        <div id="chart22"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -205,14 +197,12 @@
     <div class="content22" v-show="flag2 && flag22">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：31.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：1.03</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/上月收入.png" alt="">
-        </div>
+        <div id="chart21"></div>
         <!-- 支出排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -243,14 +233,12 @@
     <div class="content23" v-show="flag2 && flag23">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：220.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：7.10</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/本月收入.png" alt="">
-        </div>
+        <div id="chart20"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -281,14 +269,12 @@
     <div class="content31" v-show="flag3 && flag31">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：200.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：16.67</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/前年收入.png" alt="">
-        </div>
+        <div id="chart32"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -319,14 +305,13 @@
     <div class="content32" v-show="flag3 && flag32">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：155.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：12.92</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/去年收入.png" alt="">
-        </div>
+        <div id="chart31"></div>
+
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -357,14 +342,12 @@
     <div class="content33" v-show="flag3 && flag33">
         <!-- 这是总览数据，总收入和平均值 -->
         <div class="overview">
-            <label for="">总收入：581.00</label>
+            <label for="">总收入：{{ income }}</label>
             <br>
-            <label for="">平均值：48.42</label>
+            <label for="">平均值：{{ average }}</label>
         </div>
         <!-- 由于这里图表不知道怎么表示，就先放张图片，后续再改 -->
-        <div class="chart">
-            <img src="../assets/image/今年收入.png" alt="">
-        </div>
+        <div id="chart30"></div>
         <!-- 收入排行榜 -->
         <div class="title">
             <label for="">收入排行榜</label>
@@ -389,13 +372,15 @@
             </li>
         </ul>
     </div>
-    <tabBar :id="this.id"></tabBar>
 </template>
 <script>
 export default {
     data() {
         return {
             id: this.$route.query.id,
+            income: "计算中",
+            average: "计算中",
+            optType: "/lineChartOutput",
             // week的相关标志,比如flag1是周标签,flag11、flag12、flag13则分别是上上周、上周、本周标签
             flag1: true,
             flag11: false,
@@ -415,9 +400,203 @@ export default {
             flag33: true,
         }
     },
+    mounted() {
+        this.drawChart(0)
+    },
     methods: {
+        drawChart(flag) {
+            let myChart = this.$echarts.init(document.getElementById('chart' + flag), null, {
+                width: 390,
+                height: 300
+            });
+            this.$axios.get('http://localhost:8080/bill/getThisWeek', {
+                params: {
+                    userId: this.id,
+                    flag: flag
+                }
+            })
+                .then(res => {
+                    this.income = 0
+                    for (var i = 0; i < 7; i++) {
+                        this.income += res.data[i].income
+                    }
+                    this.income = Math.round((this.income) * 100) / 100
+                    this.average = (this.income / 7).toFixed(2)
+                    // 指定图表的配置项和数据
+                    var option = {
+                        xAxis: {
+                            type: 'category',
+                            data: [res.data[0].date, res.data[1].date, res.data[2].date, res.data[3].date, res.data[4].date, res.data[5].date, res.data[6].date]
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                data: [res.data[0].income, res.data[1].income, res.data[2].income, res.data[3].income, res.data[4].income, res.data[5].income, res.data[6].income],
+                                type: 'line',
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    fontSize: 10,
+                                    formatter: function (params) {
+                                        if (params.value == 0) {  //为0时不显示
+                                            return ''
+                                        } else {
+                                            return params.value
+                                        }
+                                    }
+                                },
+                                lineStyle: {
+                                    color: 'gray',
+                                    width: 2,
+                                },
+                                itemStyle: {
+                                    color: 'gray',
+                                }
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+        },
+        drawChart2(flag) {
+            let myChart = this.$echarts.init(document.getElementById('chart2' + flag), null, {
+                width: 390,
+                height: 300
+            });
+            this.$axios.get('http://localhost:8080/bill/getThisMonth', {
+                params: {
+                    userId: this.id,
+                    flag: flag
+                }
+            })
+                .then(res => {
+                    this.income = 0
+                    let tmpx = [];
+                    let tmpy = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        this.income += res.data[i].income
+                        tmpx.push(i + 1)
+                        tmpy.push(res.data[i].income)
+                    }
+                    this.income = Math.round((this.income) * 100) / 100
+                    this.average = (this.income / res.data.length).toFixed(2)
+                    // 指定图表的配置项和数据
+                    var option = {
+                        xAxis: {
+                            type: 'category',
+                            data: tmpx
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                data: tmpy,
+                                type: 'line',
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    fontSize: 10,
+                                    formatter: function (params) {
+                                        if (params.value == 0) {  //为0时不显示
+                                            return ''
+                                        } else {
+                                            return params.value
+                                        }
+                                    }
+                                },
+                                lineStyle: {
+                                    color: 'gray',
+                                    width: 2,
+                                },
+                                itemStyle: {
+                                    color: 'gray',
+                                }
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+        },
+        drawChart3(flag) {
+            let myChart = this.$echarts.init(document.getElementById('chart3' + flag), null, {
+                width: 390,
+                height: 300
+            });
+            this.$axios.get('http://localhost:8080/bill/getThisYear', {
+                params: {
+                    userId: this.id,
+                    flag: flag
+                }
+            })
+                .then(res => {
+                    this.income = 0
+                    let tmpx = [];
+                    let tmpy = [];
+                    for (var i = 0; i < 12; i++) {
+                        this.income += res.data[i].income
+                        tmpx.push(i + 1)
+                        tmpy.push(res.data[i].income)
+                    }
+                    this.income = Math.round((this.income) * 100) / 100
+                    this.average = (this.income / 12).toFixed(2)
+                    // 指定图表的配置项和数据
+                    var option = {
+                        xAxis: {
+                            type: 'category',
+                            data: tmpx
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                data: tmpy,
+                                type: 'line',
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    fontSize: 10,
+                                    formatter: function (params) {
+                                        if (params.value == 0) {  //为0时不显示
+                                            return ''
+                                        } else {
+                                            return params.value
+                                        }
+                                    }
+                                },
+                                lineStyle: {
+                                    color: 'gray',
+                                    width: 2,
+                                },
+                                itemStyle: {
+                                    color: 'gray',
+                                }
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+        },
         goto() {
-            this.$router.replace({path: "/lineChartOutput", query: {id: this.id}})
+            this.$router.replace({ path: "/lineChartOutput", query: { id: this.id } })
         },
         goBack() {
             this.$router.go(-1)
@@ -567,7 +746,7 @@ export default {
     margin-top: 15px;
     margin-left: 33px;
     font-size: 14px;
-    color: #8E8E8E;
+    color: #101010;
 }
 
 .chart {

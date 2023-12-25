@@ -91,11 +91,11 @@ export default {
         getInfor() {
             this.$axios.get("http://localhost:8080/user/getById", { params: { userId: this.id} })
                 .then(res => {
-                    this.result = res.data[0]
+                    this.result = res.data
                     if (this.result.avatar == null)
                         this.result.avatar = "src/assets/image/我的.png"
                     this.isShow = true
-                    console.log(res.data)
+                    // console.log(res.data)
                 })
                 .catch(err => {
                     console.log(err)

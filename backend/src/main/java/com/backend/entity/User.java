@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
 @Schema(description = "用户")
 public class User {
@@ -21,11 +19,11 @@ public class User {
     private String password;
     @Schema(description = "昵称", example = "小王")
     private String username;
-    @Schema(description = "头像", example = "src/assets/avtar/1.png")
+    @Schema(description = "头像", example = "src/assets/avatar/1.png")
     private String avatar;
     @Schema(description = "性别", example = "男")
     private String sex;
-    @Schema(description = "微信号", example = "xiaowang666")
+    @Schema(description = "微信号", example = "miaowing666")
     private String wechat;
     @Schema(description = "邮箱", example = "xiaowang@email.com")
     private String email;

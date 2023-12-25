@@ -165,4 +165,46 @@ class BackendApplicationTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
+    @Test
+    public void testGetThisWeekBill() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/getThisWeek")
+                        .param("userId", "1")
+                        .param("flag", "0"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetThisMonthBill() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/getThisMonth")
+                        .param("userId", "1")
+                        .param("flag", "0"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetThisYearBill() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/getThisYear")
+                        .param("userId", "1")
+                        .param("flag", "1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testGetRank() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/bill/getRank")
+                        .param("userId", "1")
+                        .param("year", "2023")
+                        .param("month", "12")
+                        .param("flag", "false"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
 }

@@ -29,34 +29,34 @@
         <div v-if="showMonthly">
             <!-- 月账单汇总信息 -->
             <p>
-                年结余:<br /><span class="balance">{{ monthlySummary.yearBalance }}</span>
+                年结余:<br /><span class="balance">{{ monthlySummary.yearBalance.toFixed(2) }}</span>
             </p>
             <!-- 列出月账单的收入和支出信息 -->
             <ul>
                 <li>
                     年收入:
-                    <span class="incomeAndExpense">{{ monthlySummary.yearIncome }}</span>
+                    <span class="incomeAndExpense">{{ monthlySummary.yearIncome.toFixed(2) }}</span>
                 </li>
                 <li>
                     年支出:
-                    <span class="incomeAndExpense">{{ monthlySummary.yearExpense }}</span>
+                    <span class="incomeAndExpense">{{ monthlySummary.yearExpense.toFixed(2) }}</span>
                 </li>
             </ul>
         </div>
         <div v-if="showYearly">
             <!-- 年账单汇总信息 -->
             <p>
-                总结余: <br /><span class="balance">{{ yearlySummary.totalBalance }}</span>
+                总结余: <br /><span class="balance">{{ yearlySummary.totalBalance.toFixed(2) }}</span>
             </p>
             <!-- 列出年账单的总收入和总支出信息 -->
             <ul>
                 <li>
                     总收入:
-                    <span class="incomeAndExpense">{{ yearlySummary.totalIncome }}</span>
+                    <span class="incomeAndExpense">{{ yearlySummary.totalIncome.toFixed(2) }}</span>
                 </li>
                 <li>
                     总支出:
-                    <span class="incomeAndExpense">{{ yearlySummary.totalExpense }}</span>
+                    <span class="incomeAndExpense">{{ yearlySummary.totalExpense.toFixed(2) }}</span>
                 </li>
             </ul>
         </div>
@@ -80,13 +80,13 @@
             <li>年结余</li>
         </ul>
         <!-- 根据显示月账单或年账单的不同，循环展示对应的账单数据 -->
-        <div v-for="(bill, index) in showMonthly ? monthlyBills : yearlyBills" :key="index">
+        <div v-for="(bill, index) in showMonthly ? monthlyBills : yearlyBills" :key="index" @click="goto(index + 1)">
             <ul class="data">
                 <!-- 显示具体的账单数据 -->
                 <li>{{ bill.id }}</li>
-                <li>{{ bill.income }}</li>
-                <li>{{ bill.expense }}</li>
-                <li>{{ bill.income + bill.expense }}</li>
+                <li>{{ bill.income.toFixed(2) }}</li>
+                <li>{{ bill.expense.toFixed(2) }}</li>
+                <li :style="{color : (bill.income + bill.expense) > 0 ? 'red' : 'green'}">{{ (bill.income + bill.expense).toFixed(2) }}</li>
             </ul>
         </div>
     </div>
@@ -119,6 +119,10 @@ export default {
         this.showMonthlyBills(); // 或者 this.showYearlyBills();
     },
     methods: {
+        // 跳转到月账单界面
+        goto(month) {
+            this.$router.push({path: '/monthlyView', query: {id: this.id, year: this.year, month: month}})
+        },
         // 显示月账单
         showMonthlyBills() {
             this.showMonthly = true;

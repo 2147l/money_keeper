@@ -14,7 +14,7 @@
         <!-- 记帐本版本号 -->
         <div class="item">
             <label for="">当前版本</label>
-            <label for="" class="curVer">version 2.0.0</label>
+            <label for="" class="curVer">version 3.0.0</label>
         </div>
         <!-- 记账本隐私协议 -->
         <div class="item">

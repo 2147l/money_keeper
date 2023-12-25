@@ -46,9 +46,9 @@
             <span>已用：{{ percentage }}%</span>
             <div class="totalProgress">
                 <div class="currProgress" :style="{
-                    width:percentage <= 100? percentage+'%': '100%',
-                    backgroundColor: percentage <= 60 ? '#81DD1C' : (percentage <= 80 ? '#F68C00': '#F63434')
-                    }"></div>
+                    width: percentage <= 100 ? percentage + '%' : '100%',
+                    backgroundColor: percentage <= 60 ? '#81DD1C' : (percentage <= 80 ? '#F68C00' : '#F63434')
+                }"></div>
             </div>
             <!-- 测试进度条样式 <input type="number" v-model="percentage"> -->
         </div>
@@ -135,7 +135,7 @@ export default {
             })
                 .then(res => {
                     this.result = res.data
-                    console.log(res.data)
+                    // console.log(res.data)
                     let weeks = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
                     let month, day, week
                     for (var x in this.result) {
@@ -155,13 +155,13 @@ export default {
         // 查询预算情况
         getBudget() {
             this.$axios.get('http://localhost:8080/budget/get', { params: { userId: this.id } })
-            .then(res => {
-                this.budget = res.data.plan
-                this.percentage = res.data.percentage
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                .then(res => {
+                    this.budget = res.data.plan
+                    this.percentage = res.data.percentage
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         },
         // 计算支出和收入
         count() {
@@ -265,7 +265,8 @@ option {
 .totalProgress {
     height: 20px;
     width: 340px;
-    margin: 38px 10px 0 10px;;
+    margin: 38px 10px 0 10px;
+    ;
     background-color: #efefef;
     border-radius: 10px;
 }
@@ -313,5 +314,4 @@ option {
     float: right;
     margin-right: 30px;
 }
-
 </style>

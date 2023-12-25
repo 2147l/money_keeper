@@ -11,6 +11,7 @@ import secure from "../views/secure.vue"
 import version from "../views/version.vue"
 import bill from "../views/bill.vue"
 import budget from "../views/budget.vue"
+import monthlyView from "../views/monthlyView.vue"
 
 const routes = [
     { path: '', redirect: '/login'},
@@ -27,6 +28,7 @@ const routes = [
     { path: '/secure', component: secure},
     { path: '/version', component: version},
     { path: '/budget', component: budget },
+    { path: '/monthlyView', component: monthlyView },
 ]
 
 export default routes

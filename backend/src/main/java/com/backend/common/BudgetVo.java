@@ -1,6 +1,5 @@
 package com.backend.common;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -14,5 +13,5 @@ public class BudgetVo {
     @Schema(description = "实际支出", example = "900")
     private BigDecimal actual;
     @Schema(description = "支出比例(%)", example = "90")
-    private int percentage;
+    private BigDecimal percentage;
 }

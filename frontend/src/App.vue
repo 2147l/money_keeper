@@ -13,6 +13,7 @@
   <!-- <lineChartIntput /> -->
   <!-- <tabBar /> -->
   <!-- <bill /> -->
+  <!-- <monthlyView></monthlyView> -->
 
 </template>
 <script>
@@ -29,6 +30,7 @@ import lineChartOutput from "./views/lineChartOutput.vue"
 import lineChartIntput from "./views/lineChartInput.vue"
 import tabBar from './components/tabBar.vue'
 import bill from './views/bill.vue'
+import monthlyView from './views/monthlyView.vue'
 export default {
   components: {
     Login,
@@ -44,6 +46,7 @@ export default {
     lineChartIntput,
     tabBar,
     bill,
+    monthlyView,
   }
 }
 </script>

@@ -1,13 +1,7 @@
 package com.backend.controller;
 
-import com.backend.common.InAndOut;
-import com.backend.entity.Bill;
 import com.backend.entity.User;
-import com.backend.mapper.BillMapper;
-import com.backend.service.BillService;
 import com.backend.service.UserService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -16,46 +10,35 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
-@Tag(name = "用户相关", description = "")
+@Tag(name = "用户相关")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private BillService billService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/getById")
-    @Operation(summary = "根据用户id查找用户")
+    @Operation(summary = "根据用户id查询用户信息")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "查询成功", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "204", description = "查找的用户不存在", content = @Content),
+            @ApiResponse(responseCode = "204", description = "用户id不存在", content = @Content),
             @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
-    @Parameter(name = "userId", description = "用户id", example = "1")
-    public ResponseEntity<List<User>> getById(@RequestParam int userId) {
-        LambdaQueryWrapper<User> query = new LambdaQueryWrapper<>();
-        query.eq(User::getId, userId);
-        List<User> res = userService.list(query);
-        if (res.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @Parameter(name = "userId", description = "用户id", required = true, example = "1")
+    public ResponseEntity<User> getById(@RequestParam Integer userId) {
+        User res =  userService.getById(userId);
+        if (res == null) {
+            return ResponseEntity.noContent().build();
         } else {
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            return ResponseEntity.ok(res);
         }
     }
 
@@ -72,26 +55,22 @@ public class UserController {
             @Parameter(name = "password", description = "密码", required = true, example = "123")
     })
     public ResponseEntity<User> login(@RequestParam String phone, @RequestParam String password) {
-        LambdaQueryWrapper<User> query = new LambdaQueryWrapper<>();
-        query.eq(User::getPhone, phone);
-        query.eq(User::getPassword, password);
-        List<User> res = userService.list(query);
-        if (res.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        User res = userService.login(phone, password);
+        if (res == null) {
+            return ResponseEntity.status(401).build();
         } else {
-            return new ResponseEntity<>(res.get(0), HttpStatus.OK);
+            return ResponseEntity.ok(res);
         }
-
     }
 
     @PostMapping("/update")
-    @Operation(summary = "更新用户信息")
+    @Operation(summary = "根据id更新用户信息")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "更新成功", content = @Content),
             @ApiResponse(responseCode = "204", description = "用户不存在", content = @Content),
             @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
-    public ResponseEntity update(@RequestBody User user) {
+    public ResponseEntity<User> update(@RequestBody User user) {
         User tmp = userService.getById(user.getId());
         if (tmp == null)
             return ResponseEntity.noContent().build();
