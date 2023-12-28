@@ -84,6 +84,25 @@ class BackendApplicationTest {
     }
 
     @Test
+    public void testUpdateBill() throws Exception {
+        Bill bill = new Bill();
+        bill.setId(1);
+        bill.setUserId(1);
+        bill.setCategoryId(1);
+        bill.setType(false);
+        bill.setAmount(BigDecimal.valueOf(-66.6));
+        bill.setDate("2021-3-27");
+        bill.setNote("测试");
+        String jsonStr = Json.pretty(bill);
+        mockMvc.perform(MockMvcRequestBuilders.post("/bill/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonStr))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
     public void testDeleteBill() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/bill/delete")
                         .param("billId", "1"))
@@ -145,7 +164,6 @@ class BackendApplicationTest {
     @Test
     public void testCreateBudget() throws Exception {
         Budget budget = new Budget();
-//        budget.setId(1);
         budget.setUserId(1);
         budget.setPlan(BigDecimal.valueOf(1000));
         String jsonStr = Json.pretty(budget);

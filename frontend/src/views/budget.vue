@@ -138,10 +138,10 @@ export default {
         // 提交表单
         submit() {
             this.$axios.post('http://localhost:8080/budget/create', {
-                userId: this.id,
-                plan: this.output
+                    userId: this.id,
+                    plan: this.output
             })
-                .then(res => res.data).then(res => {
+                .then(res => {
                     this.isVisible = false
                     this.getBudget()
                 })

@@ -85,7 +85,7 @@ export default {
         getInfor() {
             this.$axios.get("http://localhost:8080/user/getById", { params: { userId: this.id } })
                 .then(res => {
-                    this.result = res.data[0]
+                    this.result = res.data
                     if (null == this.result.username)
                         this.result.username = "未知"
                     if (null == this.result.avatar)

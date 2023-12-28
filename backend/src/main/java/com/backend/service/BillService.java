@@ -226,7 +226,7 @@ public class BillService extends ServiceImpl<BillMapper, Bill> {
 
     public List<Rank> getRank(Integer userId, String year, String month, boolean flag) {
         if (month.length() < 2)
-            month += "0";
+            month = "0" + month;
         List<Rank> res = billMapper.rankMonth(userId, year + '-' + month, flag);
         BigDecimal total = BigDecimal.ZERO;
         for (Rank re : res) {
@@ -237,19 +237,6 @@ public class BillService extends ServiceImpl<BillMapper, Bill> {
         }
         return res;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public BigDecimal getThisMonthExpense(Integer userId) {
         // 查询本月的支出

@@ -171,12 +171,12 @@
         <!-- 下面是一些具体消费信息，由于不知道怎么调数据，这里也先固定写一些 -->
         <ul class="expense">
             <li>
-                <img src="../assets/icon/food.png" width="45" height="45" alt="">
+                <img src="../assets/icon/娱乐.png" width="40" height="40" alt="">
                 <div class="data">
                     <!-- 下面放的是一些数据信息，如餐饮 69.2%    67 -->
                     <div>
-                        <label for="" class="label1">餐饮 69.2%</label>
-                        <label for="" class="label2">67</label>
+                        <label for="" class="label1">娱乐 77.2%</label>
+                        <label for="" class="label2">100.56</label>
                     </div>
                     <br>
                     <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
@@ -187,12 +187,12 @@
                 </div>
             </li>
             <li>
-                <img src="../assets/icon/shopping.png" width="45" height="45" alt="">
+                <img src="../assets/icon/医疗.png" width="40" height="40" alt="">
                 <div class="data">
                     <!-- 下面放的是一些数据信息，如购物 30.8%    12 -->
                     <div>
-                        <label for="" class="label1">购物 30.8%</label>
-                        <label for="" class="label2">12</label>
+                        <label for="" class="label1">医疗 22.8%</label>
+                        <label for="" class="label2">29.78</label>
                     </div>
                     <br>
                     <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
@@ -498,12 +498,12 @@
         <!-- 下面是一些具体消费信息，由于不知道怎么调数据，这里也先固定写一些 -->
         <ul class="expense">
             <li>
-                <img src="../assets/icon/shopping.png" width="45" height="45" alt="">
+                <img src="../assets/icon/communication.png" width="45" height="45" alt="">
                 <div class="data">
                     <!-- 下面放的是一些数据信息，如餐饮 69.2%    67 -->
                     <div>
-                        <label for="" class="label1">购物 41.2%</label>
-                        <label for="" class="label2">82</label>
+                        <label for="" class="label1">通讯 29.9%</label>
+                        <label for="" class="label2">1651</label>
                     </div>
                     <br>
                     <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
@@ -514,28 +514,60 @@
                 </div>
             </li>
             <li>
-                <img src="../assets/icon/food.png" width="45" height="45" alt="">
+                <img src="../assets/icon/beautify.png" width="45" height="45" alt="">
                 <div class="data">
                     <!-- 下面放的是一些数据信息，如购物 30.8%    12 -->
                     <div>
-                        <label for="" class="label1">餐饮 37.7%</label>
-                        <label for="" class="label2">75</label>
+                        <label for="" class="label1">美容 21.8%</label>
+                        <label for="" class="label2">1200</label>
                     </div>
                     <br>
                     <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
                     <!-- 以盒子压缩表示比例条 -->
-                    <div class="percentBar" style="width: 258px;"></div>
+                    <div class="percentBar" style="width: 217px;"></div>
                     <div>
                     </div>
                 </div>
             </li>
             <li>
-                <img src="../assets/icon/communication.png" width="45" height="45" alt="">
+                <img src="../assets/icon/food.png" width="45" height="45" alt="">
                 <div class="data">
                     <!-- 下面放的是一些数据信息，如购物 30.8%    12 -->
                     <div>
-                        <label for="" class="label1">通讯 13.1%</label>
-                        <label for="" class="label2">26</label>
+                        <label for="" class="label1">餐饮 15.6%</label>
+                        <label for="" class="label2">806.16</label>
+                    </div>
+                    <br>
+                    <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
+                    <!-- 以盒子压缩表示比例条 -->
+                    <div class="percentBar" style="width: 153px;"></div>
+                    <div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <img src="../assets/icon/shopping.png" width="45" height="45" alt="">
+                <div class="data">
+                    <!-- 下面放的是一些数据信息，如购物 30.8%    12 -->
+                    <div>
+                        <label for="" class="label1">购物 14.7%</label>
+                        <label for="" class="label2">810.56</label>
+                    </div>
+                    <br>
+                    <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
+                    <!-- 以盒子压缩表示比例条 -->
+                    <div class="percentBar" style="width: 136px;"></div>
+                    <div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <img src="../assets/icon/snack.png" width="45" height="45" alt="">
+                <div class="data">
+                    <!-- 下面放的是一些数据信息，如购物 30.8%    12 -->
+                    <div>
+                        <label for="" class="label1">零食 10.7%</label>
+                        <label for="" class="label2">593.1</label>
                     </div>
                     <br>
                     <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
@@ -546,17 +578,17 @@
                 </div>
             </li>
             <li>
-                <img src="../assets/icon/snack.png" width="45" height="45" alt="">
+                <img src="../assets/icon/fruit.png" width="45" height="45" alt="">
                 <div class="data">
                     <!-- 下面放的是一些数据信息，如购物 30.8%    12 -->
                     <div>
-                        <label for="" class="label1">零食 8.0%</label>
-                        <label for="" class="label2">16</label>
+                        <label for="" class="label1">水果 7.3%</label>
+                        <label for="" class="label2">410.26</label>
                     </div>
                     <br>
                     <!-- 下面放的是百分比例条，由于这里不知道怎么调用，这里先固定写，后续再改 -->
                     <!-- 以盒子压缩表示比例条 -->
-                    <div class="percentBar" style="width: 59px;"></div>
+                    <div class="percentBar" style="width: 61px;"></div>
                     <div>
                     </div>
                 </div>

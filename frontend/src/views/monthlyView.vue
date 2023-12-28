@@ -233,6 +233,8 @@ li {
 
 li span:nth-child(1) {
     margin: 0 10px 0 10px;
+    width: 1em;
+    text-align: center;
 }
 
 li span:nth-child(4) {

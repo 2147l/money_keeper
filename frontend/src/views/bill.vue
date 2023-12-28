@@ -249,23 +249,23 @@ export default {
 
             // 模拟获取年账单数据
             const mockYearlySummary = {
-                totalBalance: 1620.0,
-                totalIncome: 11350.0,
-                totalExpense: 9730.0,
+                totalBalance: 9256.07,
+                totalIncome: 16838.06,
+                totalExpense: -7581.99,
             };
 
             const mockYearlyBills = [
                 {
                     id: "2023" + "年",
-                    income: 3450,
-                    expense: 2680,
-                    balance: 770,
+                    income: 3938.06,
+                    expense: -5643.86,
+                    balance: -1705.80,
                 },
                 {
                     id: "2022" + "年",
-                    income: 1700,
-                    expense: 1800,
-                    balance: -100,
+                    income: 6700,
+                    expense: -7188.13,
+                    balance: -488.13,
                 }
                 ,
                 {

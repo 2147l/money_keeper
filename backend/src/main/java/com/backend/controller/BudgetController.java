@@ -8,6 +8,7 @@ import com.backend.service.BudgetService;
 import com.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -41,7 +42,9 @@ public class BudgetController {
             @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
     @PostMapping("/create")
-    public ResponseEntity<Budget> createBudget(@Parameter(description = "预算", required = true) @RequestBody Budget budget) {
+    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget) {
+        if (budget.getUserId() == null)
+            return ResponseEntity.badRequest().build();
         User user = userService.getById(budget.getUserId());
         if (user == null)
             return ResponseEntity.noContent().build();

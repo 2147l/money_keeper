@@ -36,7 +36,8 @@ public class BudgetService extends ServiceImpl<BudgetMapper, Budget> {
         if (tmp == null) {
             return budgetMapper.insert(budget);
         } else {
-            return budgetMapper.updateById(tmp);
+            budget.setId(tmp.getId());
+            return budgetMapper.updateById(budget);
         }
     }
 

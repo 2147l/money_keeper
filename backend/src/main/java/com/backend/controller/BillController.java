@@ -54,7 +54,23 @@ public class BillController {
         }
     }
 
-    @Operation(summary = "根据账单id删除记录")
+    @Operation(summary = "根据账单id修改记录")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "创建成功", content = @Content),
+            @ApiResponse(responseCode = "204", description = "记录不存在", content = @Content),
+            @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
+    })
+    @PostMapping("/update")
+    public ResponseEntity<Bill> update(@Parameter(description = "账单对象") @RequestBody Bill bill) {
+        if (bill == null || bill.getId() == null)
+            return ResponseEntity.badRequest().build();
+        if (billService.getById(bill.getId()) == null)
+            return ResponseEntity.noContent().build();
+        billService.updateById(bill);
+        return ResponseEntity.ok().build();
+    }
+
+        @Operation(summary = "根据账单id删除记录")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "删除成功", content = @Content),
             @ApiResponse(responseCode = "204", description = "记录不存在", content = @Content),
