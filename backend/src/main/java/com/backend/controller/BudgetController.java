@@ -43,6 +43,7 @@ public class BudgetController {
     })
     @PostMapping("/create")
     public ResponseEntity<Budget> createBudget(@RequestBody Budget budget) {
+        budget.setId(null);
         if (budget.getUserId() == null)
             return ResponseEntity.badRequest().build();
         User user = userService.getById(budget.getUserId());

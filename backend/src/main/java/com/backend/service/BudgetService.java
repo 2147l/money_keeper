@@ -6,8 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class BudgetService extends ServiceImpl<BudgetMapper, Budget> {
@@ -18,16 +21,26 @@ public class BudgetService extends ServiceImpl<BudgetMapper, Budget> {
     }
 
     public int create(Budget budget) {
+        if (budget.getPlan().compareTo(BigDecimal.ZERO) < 0)
+            return 0;
         if (null == budget.getYearAndMonth() || budget.getYearAndMonth().isEmpty()) {
             // 没传日期就将日期设为今年本月
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
             budget.setYearAndMonth(simpleDateFormat.format(new Date()));
         } else {
+            Pattern pattern = Pattern.compile("^\\d{4}-\\d{1,2}$");
+            Matcher matcher = pattern.matcher(budget.getYearAndMonth());
+            if (!matcher.matches())
+                return 0;
             // 格式化日期
             if (budget.getYearAndMonth().length() < 7) {
                 String tmp = budget.getYearAndMonth().substring(0, 5) + '0' + budget.getYearAndMonth().substring(5);
                 budget.setYearAndMonth(tmp);
             }
+            int year = Integer.parseInt(budget.getYearAndMonth().substring(0, 4));
+            int month = Integer.parseInt(budget.getYearAndMonth().substring(5));
+            if (year < 1990 || year > 2050 || month < 1 || month > 12)
+                return 0;
         }
         LambdaQueryWrapper<Budget> query = new LambdaQueryWrapper<>();
         query.eq(Budget::getUserId, budget.getUserId());

@@ -7,6 +7,8 @@ import com.backend.entity.Bill;
 import com.backend.mapper.BillMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class BillService extends ServiceImpl<BillMapper, Bill> {
@@ -29,10 +32,12 @@ public class BillService extends ServiceImpl<BillMapper, Bill> {
     }
 
     public int create(Bill bill) {
+        // 金额为0则不创建
+        if (bill.getAmount() == null || bill.getAmount().compareTo(BigDecimal.ZERO) == 0)
+            return 0;
         // 统一金额符号与收支类型
         if (bill.isType() ^ (bill.getAmount().compareTo(BigDecimal.ZERO) > 0))
             bill.setAmount(bill.getAmount().negate());
-        bill.setId(null);
         // 账单的收支类型必须与分类匹配
         if (bill.isType() && (bill.getCategoryId() < 12 || bill.getCategoryId() > 16))
             return 0;
@@ -43,12 +48,33 @@ public class BillService extends ServiceImpl<BillMapper, Bill> {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             bill.setDate(simpleDateFormat.format(new Date()));
         } else {
-            // 格式化日期
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-            LocalDate date = LocalDate.parse(bill.getDate(), formatter);
-            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            bill.setDate(formatter2.format(date));
+            // 将日期格式化为"yyyy-MM-dd"
+            String date = bill.getDate();
+            if (Pattern.matches("^\\d{4}-\\d-\\d$", date)) {
+                date = date.substring(0, 5) + '0' + date.substring(5, 7) + '0' + date.substring(7);
+            } else if (Pattern.matches("^\\d{4}-\\d{2}-\\d$", date)) {
+                date = date.substring(0, 8) + '0' + date.substring(8);
+            } else if (Pattern.matches("^\\d{4}-\\d-\\d{2}$", date)) {
+                date = date.substring(0, 5) + '0' + date.substring(5);
+            } else {
+                if (!Pattern.matches("^\\d{4}-\\d{2}-\\d{2}$", date)) {
+                    return 0;
+                }
+            }
+            // 判断日期是否合法
+            LocalDate tmp;
+            try {
+                tmp = LocalDate.parse(date);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return 0;
+            }
+            int year = tmp.getYear();
+            if (year < 1990 || year > 2050)
+                return 0;
+            bill.setDate(date);
         }
+        bill.setId(null);
         return billMapper.insert(bill);
     }
 

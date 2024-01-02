@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
@@ -34,7 +37,7 @@ public class UserController {
     })
     @Parameter(name = "userId", description = "用户id", required = true, example = "1")
     public ResponseEntity<User> getById(@RequestParam Integer userId) {
-        User res =  userService.getById(userId);
+        User res = userService.getById(userId);
         if (res == null) {
             return ResponseEntity.noContent().build();
         } else {
@@ -71,9 +74,41 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "缺少必要参数，或参数格式非法", content = @Content)
     })
     public ResponseEntity<User> update(@RequestBody User user) {
+        if (user == null || user.getId() == null)
+            return ResponseEntity.badRequest().build();
         User tmp = userService.getById(user.getId());
         if (tmp == null)
             return ResponseEntity.noContent().build();
+        user.setPhone(null);
+        user.setPassword(null);
+        Pattern pattern;
+        Matcher matcher;
+        // 校验用户名字段
+        if (user.getUsername() != null) {
+            pattern = Pattern.compile("^[\\u4e00-\\u9fa5\\w]{1,20}$");
+            matcher = pattern.matcher(user.getUsername());
+            if (!matcher.matches())
+                return ResponseEntity.badRequest().build();
+        }
+        // 校验性别字段
+        if (user.getSex() != null) {
+            if (!user.getSex().equals("男") && !user.getSex().equals("女"))
+                user.setSex("未设置");
+        }
+        // 校验微信号字段
+        if (user.getWechat() != null) {
+            pattern = Pattern.compile("^\\w{1,20}$");
+            matcher = pattern.matcher(user.getWechat());
+            if (!matcher.matches())
+                return ResponseEntity.badRequest().build();
+        }
+        // 校验邮箱字段
+        if (user.getEmail() != null) {
+            pattern = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+            matcher = pattern.matcher(user.getEmail());
+            if (!matcher.matches())
+                return ResponseEntity.badRequest().build();
+        }
         userService.updateById(user);
         return ResponseEntity.ok().build();
     }

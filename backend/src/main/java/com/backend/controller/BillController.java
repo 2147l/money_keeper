@@ -42,11 +42,12 @@ public class BillController {
     })
     @PostMapping("/create")
     public ResponseEntity<Bill> create(@Parameter(description = "账单对象") @RequestBody Bill bill) {
-        if (bill.getUserId() == null || userService.getById(bill.getUserId()) == null)
+        if (bill == null)
+            return ResponseEntity.badRequest().build();
+        if (bill.getUserId() == null)
+            return ResponseEntity.badRequest().build();
+        if (userService.getById(bill.getUserId()) == null)
             return ResponseEntity.noContent().build();
-        // 金额为0则不创建
-        if (bill.getAmount() == null || bill.getAmount().compareTo(BigDecimal.ZERO) == 0)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (billService.create(bill) > 0) {
             return ResponseEntity.ok().build();
         } else {
