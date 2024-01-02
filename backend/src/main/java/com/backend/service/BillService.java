@@ -35,6 +35,8 @@ public class BillService extends ServiceImpl<BillMapper, Bill> {
         // 金额为0则不创建
         if (bill.getAmount() == null || bill.getAmount().compareTo(BigDecimal.ZERO) == 0)
             return 0;
+        if (bill.getAmount().scale() > 2)
+            return 0;
         // 统一金额符号与收支类型
         if (bill.isType() ^ (bill.getAmount().compareTo(BigDecimal.ZERO) > 0))
             bill.setAmount(bill.getAmount().negate());
@@ -75,7 +77,12 @@ public class BillService extends ServiceImpl<BillMapper, Bill> {
             bill.setDate(date);
         }
         bill.setId(null);
-        return billMapper.insert(bill);
+        try {
+            return billMapper.insert(bill);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
     }
 
     public List<BillVo> getList(Integer userId) {

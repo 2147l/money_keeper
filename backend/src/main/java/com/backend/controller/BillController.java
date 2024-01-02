@@ -183,13 +183,11 @@ public class BillController {
     })
     @GetMapping("/getThisWeek")
     public ResponseEntity<List<IncomeExpense>> getThisWeek(@RequestParam Integer userId, @RequestParam Integer flag) {
-        if (userId == null || flag == null)
-            return ResponseEntity.badRequest().build();
+        if (userService.getById(userId) == null)
+            return ResponseEntity.noContent().build();
         if (flag != 0 && flag != 1 && flag != 2) {
             return ResponseEntity.badRequest().build();
         }
-        if (userService.getById(userId) == null)
-            return ResponseEntity.noContent().build();
         List<IncomeExpense> res = billService.getThisWeek(userId, flag);
         return ResponseEntity.ok(res);
     }
@@ -256,12 +254,14 @@ public class BillController {
             @Parameter(name = "flag", description = "false为支出，true为收入", required = true, example = "false")
     })
     @GetMapping("/getRank")
-    public ResponseEntity<List<Rank>> getRank(@RequestParam Integer userId, @RequestParam String year, @RequestParam String month, @RequestParam boolean flag) {
+    public ResponseEntity<List<Rank>> getRank(@RequestParam Integer userId, @RequestParam Integer year, @RequestParam Integer month, @RequestParam boolean flag) {
         if (userId == null || year == null || month == null)
             return ResponseEntity.badRequest().build();
         if (userService.getById(userId) == null)
             return ResponseEntity.noContent().build();
-        List<Rank> res = billService.getRank(userId, year, month, flag);
+        if (year < 1990 || year > 2050 || month < 1 || month > 12)
+            return ResponseEntity.badRequest().build();
+        List<Rank> res = billService.getRank(userId, year.toString(), month.toString(), flag);
         return ResponseEntity.ok(res);
     }
 
